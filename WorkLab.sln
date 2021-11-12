@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkLabWeb", "WorkLabWeb\WorkLabWeb.csproj", "{75F33587-8C4F-44B2-88FF-02C3EBD2C860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkLabLibrary", "WorkLabLibrary\WorkLabLibrary.csproj", "{4F19C6F1-458F-491C-99FA-31F67F3AB623}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75F33587-8C4F-44B2-88FF-02C3EBD2C860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75F33587-8C4F-44B2-88FF-02C3EBD2C860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F33587-8C4F-44B2-88FF-02C3EBD2C860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75F33587-8C4F-44B2-88FF-02C3EBD2C860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F19C6F1-458F-491C-99FA-31F67F3AB623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F19C6F1-458F-491C-99FA-31F67F3AB623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F19C6F1-458F-491C-99FA-31F67F3AB623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F19C6F1-458F-491C-99FA-31F67F3AB623}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E86968A5-0B6C-4655-AC88-0E743D74D412}
+	EndGlobalSection
+EndGlobal

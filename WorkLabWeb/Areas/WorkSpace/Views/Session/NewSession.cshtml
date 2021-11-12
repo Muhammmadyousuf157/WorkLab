@@ -1,0 +1,47 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "New Session";
+
+    string partialmarkup = null;
+
+    if (Model == "document")
+    {
+        partialmarkup = "_DocumentMarkupPartial";
+
+    }
+    else if (Model == "spreadsheet")
+    {
+        partialmarkup = "_SpreadsheetMarkupPartial";
+    }
+}
+
+@section Styles {
+    @if (Model == "document")
+    {
+        <link rel="stylesheet" href="~/css/session/document.css" />
+    }
+    else if (Model == "spreadsheet")
+    {
+        <link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" />
+    }
+
+    <link rel="stylesheet" href="~/css/session/session.css" />
+}
+
+<partial name="_SessionMarkupPartial" model="partialmarkup" />
+
+@section Scripts {
+    @if (Model == "document")
+    {
+        <script src="~/lib/ckeditor/ckeditor.js"></script>
+        <script type="module" src="~/js/session/document.js"></script>
+    }
+    else if (Model == "spreadsheet")
+    {
+        <script src="~/lib/xspreadsheet/xspreadsheet.js"></script>
+        <script src="~/js/session/spreadsheet.js"></script>
+    }
+
+    <script src="~/js/session/session.js"></script>
+}

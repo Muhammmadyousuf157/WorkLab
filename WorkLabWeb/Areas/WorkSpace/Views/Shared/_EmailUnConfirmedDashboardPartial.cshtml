@@ -1,0 +1,28 @@
+﻿<a hidden id="user-email" data-userEmail="@User.FindFirst(x => x.Type == ClaimTypes.Email).Value"></a>
+
+<div class="row" style="margin-top: 5%">
+	<div class="col l6 offset-l3">
+		<h4 class="blue-grey-text text-darken-1"><i class="material-icons small">confirmation_number</i> Confirm your email address</h4>
+
+		<p style="font-size: large" class="blue-grey-text text-darken-1">Account activation email will be sent to your registered email address. If you cannot find the email, Please check Spam mails.</p>
+
+		<div class="row">
+			<div class="col l3">
+				<a id="send-email" class="btn waves-effect waves-light grey darken-2"><i class="material-icons left">email</i> Send Email</a>
+			</div>
+			<div class="col l1">
+				<div id="loader" class="preloader-wrapper small active left">
+					<div class="spinner-layer spinner-blue-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div><div class="gap-patch">
+							<div class="circle"></div>
+						</div><div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

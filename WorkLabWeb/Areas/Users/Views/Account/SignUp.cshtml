@@ -1,0 +1,82 @@
+﻿@model SignUpViewModel
+
+@{
+    ViewData["Title"] = "Sign up";
+}
+
+<div class="row valign-wrapper">
+    <form asp-area="Users" asp-controller="Account" asp-action="SignUp" method="post" class="col l6 m8 s12 offset-l3 offset-m2">
+        <div class="row">
+            <div class="col l6 m8 s12 offset-l4">
+                <img class="animate__animated animate__fadeIn" src="/images/SignUp.svg" height="200" width="200" />
+            </div>
+        </div>
+
+        <div class="animate__animated animate__fadeIn">
+            <div class="row">
+                <div class="input-field col l6 m12 s12 ">
+                    <i class="material-icons prefix">assignment</i>
+                    <input asp-for="FirstName" class="validate" autofocus autocomplete="off" spellcheck="false" />
+                    <label for="FirstName">First Name</label>
+                    <span asp-validation-for="FirstName" class="red-text right"></span>
+                </div>
+
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">assignment</i>
+                    <input asp-for="LastName" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="LastName">Last Name</label>
+                    <span asp-validation-for="LastName" class="red-text right"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">email</i>
+                    <input asp-for="EmailAddress" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="EmailAddress">Email Address</label>
+                    <span asp-validation-for="EmailAddress" class="red-text right"></span>
+                </div>
+
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">email</i>
+                    <input asp-for="ConfirmEmailAddress" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="ConfirmEmailAddress">Confirm Email Address</label>
+                    <span asp-validation-for="ConfirmEmailAddress" class="red-text right"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">lock</i>
+                    <input asp-for="Password" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="Password">Password</label>
+                    <span asp-validation-for="Password" class="red-text right"></span>
+                </div>
+
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">lock</i>
+                    <input asp-for="ConfirmPassword" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="ConfirmPassword" class="red-text right"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col l6 m12 s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input asp-for="UserName" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="UserName">User Name</label>
+                    <span asp-validation-for="UserName" class="red-text right"></span>
+                </div>
+
+                <div class="input-field col l6 m12 s12">
+                    <button type="submit" class="btn waves-effect waves-light right green darken-1"><i class="material-icons left">add</i>Create Account</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

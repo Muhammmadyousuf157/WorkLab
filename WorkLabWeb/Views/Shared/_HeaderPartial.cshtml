@@ -1,0 +1,13 @@
+﻿@{ var partialName = User.Identity.IsAuthenticated ? "_AuthenticatedNavPartial" : "_UnAuthenticatedNavPartial"; }
+
+<nav class="green darken-2">
+	<div class="nav-wrapper">
+		<a asp-area="" asp-controller="Home" asp-action="Index" class="brand-logo">
+			<ul>
+				<li><img class="logo" src="~/favicon.ico" height="50" width="50" /></li>
+				<li><div class="logo-text">WORKLAB</div></li>
+			</ul>
+		</a>
+		<partial name="@partialName" />
+	</div>
+</nav>

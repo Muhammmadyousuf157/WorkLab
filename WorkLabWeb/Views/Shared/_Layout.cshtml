@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - WorkLab</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<link rel="stylesheet" href="~/lib/materialize/css/materialize.min.css" />
+	<link rel="stylesheet" href="~/lib/material-dialog/css/duDialog.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	@await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+	<header>
+		<partial name="_HeaderPartial" />
+	</header>
+
+	<main>
+		@RenderBody()
+	</main>
+
+	<footer class="page-footer white">
+		<partial name="_FooterPartial" />
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/materialize/js/materialize.min.js"></script>
+	<script src="~/lib/material-dialog/js/duDialog.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

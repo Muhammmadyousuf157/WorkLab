@@ -1,0 +1,32 @@
+﻿@{ 
+    var email = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
+
+    var isConfirmed = await EmailManager.IsEmailConfirmed(email);
+}
+
+<ul class="right hide-on-med-and-down">
+    <li>
+        <a asp-area="WorkSpace" asp-controller="Session" asp-action="Dashboard"><i class="material-icons left">dashboard</i> Dashboard</a>
+    </li>
+    @if (isConfirmed)
+    {
+        <li>
+            <a class="dropdown-trigger" data-target="session-options"><i class="material-icons left">add_box</i> New Session <i class="material-icons right">arrow_drop_down</i></a>
+        </li>
+    }
+    <li>
+        <a asp-area="WorkSpace" asp-controller="Session" asp-action="JoinSession"><i class="material-icons left">repeat</i> Join Session</a>
+    </li>
+    <li><a class="dropdown-trigger" data-target="user-actions"><i class="material-icons left">verified_user</i> @User.Identity.Name.ToUpper() <i class="material-icons right">arrow_drop_down</i></a></li>
+</ul>
+
+<ul id="session-options" class="dropdown-content">
+    <li><a asp-area="WorkSpace" asp-controller="Session" asp-action="NewSession" asp-route-type="document"><i class="material-icons left">insert_drive_file</i> Document</a></li>
+    <li><a asp-area="WorkSpace" asp-controller="Session" asp-action="NewSession" asp-route-type="spreadsheet"><i class="material-icons left">library_books</i> SpreadSheet</a></li>
+</ul>
+
+<ul id="user-actions" class="dropdown-content">
+    <li><a onclick="$('#logout').submit()"><i class="material-icons left">arrow_back</i> Sign out</a></li>
+</ul>
+
+<form hidden id="logout" asp-area="Users" asp-controller="Account" asp-action="Logout" method="post"></form>

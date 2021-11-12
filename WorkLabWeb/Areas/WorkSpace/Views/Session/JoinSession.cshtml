@@ -1,0 +1,46 @@
+﻿@model JoinSessionViewModel
+
+@{
+    ViewData["Title"] = "Join Session";
+}
+
+<div class="row valign-wrapper">
+    <form asp-area="WorkSpace" asp-controller="Session" asp-action="JoinSession" method="post" class="col l6 m8 s12 offset-l3 offset-m2">
+
+        <div class="row">
+            <div class="col l13 m8 s14 offset-l4">
+                <img class="animate__animated animate__fadeIn" src="/images/join-session.svg" height="200" width="200" />
+            </div>
+        </div>
+
+        <div class="animate__animated animate__fadeIn">
+            <div class="row" style="margin-top: 2%;">
+                <div class="input-field col l6 m12 s12 offset-l3">
+                    <i class="material-icons prefix">account_box</i>
+                    <input asp-for="UserName" class="validate" autofocus autocomplete="off" spellcheck="false" />
+                    <label for="UserName">User Name</label>
+                    <span asp-validation-for="UserName" class="red-text right"></span>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%;">
+                <div class="input-field col l6 m12 s12 offset-l3">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input asp-for="SessionKey" class="validate" autocomplete="off" spellcheck="false" />
+                    <label for="SessionKey">Session Key</label>
+                    <span asp-validation-for="SessionKey" class="red-text right"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col l6 m12 s12 offset-l3">
+                    <button type="submit" class="btn waves-effect waves-light right grey darken-3"><i class="material-icons left">person_add</i><span class="left">Join</span></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

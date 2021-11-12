@@ -1,0 +1,65 @@
+﻿#actions-panel {
+	top: 64.4px !important;
+}
+
+#video-panel {
+	top: 64.4px !important;
+}
+
+main, footer {
+	padding-left: 300px;
+	padding-right: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+	main, footer {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.participant {
+	cursor: pointer;
+}
+
+.participant-list {
+	height: 250px;
+	overflow: auto;
+}
+
+.search-participant {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.actions-list {
+	height: 250px;
+	overflow: auto;
+}
+
+.video-list {
+	height: 650px;
+	overflow: auto;
+}
+
+.video-box {
+	height: 150px;
+	border: 1px solid #bdbdbd;
+	border-radius: 10px;
+	margin-top: 10px;
+}
+
+.video-item {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+body, html {
+	height: 100%;
+	overflow: hidden;
+}
+
+#document-editor {
+	height: 100%;
+	border: 1px solid lightgray;
+}
