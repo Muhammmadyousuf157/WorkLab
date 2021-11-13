@@ -58,6 +58,8 @@
 				`;
 
 				editor.setData(editor.getData() + imageMarkup);
+
+				console.log(e.target.result);
 			};
 
 			reader.readAsDataURL(this.files[0]);
@@ -66,4 +68,3 @@
 	.catch(err => {
 		console.error(err.stack);
 	});
-
