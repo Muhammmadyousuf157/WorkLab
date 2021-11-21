@@ -1,6 +1,10 @@
 ﻿$(document).ready(() => {
     $('.tooltipped').tooltip();
     $('.dropdown-trigger').dropdown();
+    $('.sidenav').sidenav();
+    $('.modal').modal({
+        dismissible: false
+    });
 });
 
 function showAlert(title = null, message, dark, okText) {

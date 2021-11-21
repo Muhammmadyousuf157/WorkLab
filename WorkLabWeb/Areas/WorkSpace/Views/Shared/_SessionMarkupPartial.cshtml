@@ -1,8 +1,7 @@
 ﻿@model string
-
 <!--========================== Participants list and Actions panel ==============================================-->
 <ul id="actions-panel" class="sidenav sidenav-fixed animate__animated animate__fadeIn">
-    <li><a class="subheader"><i class="material-icons grey-text">people</i>Participants</a></li>
+    <li><a class="subheader"><i class="material-icons grey-text">people</i>Participants (<span id="no-of-participants"></span>)</a></li>
 
     <li class="search-participant">
         <div class="input-field">
@@ -12,13 +11,7 @@
 
     <li>
         <div class="participant-list">
-            <ul>
-                <li class="participant"><a class="blue-text">Fahad Khan</a></li>
-                <li class="participant"><a class="blue-text">Mohammad Yousuf</a></li>
-                <li class="participant"><a class="blue-text">Mirza Asad</a></li>
-                <li class="participant"><a class="blue-text">Bilal Ahmed</a></li>
-                <li class="participant"><a class="blue-text">Jamal Ahmed</a></li>
-            </ul>
+            <ul></ul>
         </div>
     </li>
 
@@ -29,7 +22,7 @@
     <li>
         <div class="actions-list">
             <ul>
-                <li><a class="waves-effect"><i class="material-icons">share</i>Share</a></li>
+                <li><a class="waves-effect modal-trigger" href="#share-modal"><i class="material-icons">share</i>Share</a></li>
                 <li><a class="waves-effect"><i class="material-icons">chat</i>Chat</a></li>
                 <li><a class="waves-effect"><i class="material-icons">file_download</i>Download</a></li>
             </ul>
@@ -67,3 +60,22 @@
     </li>
 </ul>
 <!--========================================================================================================-->
+<!--============================ Share Modal =========================================-->
+<div id="share-modal" class="modal">
+    <div class="modal-content">
+        <h4 class="grey-text">Share Code</h4>
+        <h6>Anyone with access to this session key will see your code in real time.</h6>
+
+        <br />
+
+        <h6 class="grey-text">Share this session key <i class="material-icons left">arrow_downward</i></h6>
+
+        <div id="session-key-chip" class="chip" style="font-size: medium; margin-top: 1%;"></div>
+
+        <span id="copy-session-key" style="cursor: pointer;"><i class="material-icons blue-text">content_copy</i></span>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn red lighten-1"><i class="material-icons left">close</i> Close</a>
+    </div>
+</div>
+<!--==================================================================================-->

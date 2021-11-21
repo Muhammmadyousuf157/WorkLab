@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using WorkLabLibrary.DataAccess;
 using WorkLabWeb.Areas.WorkSpace.Models;
+using WorkLabWeb.HubModels;
 
 namespace WorkLabWeb.Areas.WorkSpace.Controllers
 {
@@ -35,6 +36,25 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 				model.UserName = User.Identity.Name;
 
 			return View(model);
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult JoinSession(JoinSessionViewModel model)
+		{
+			if (!ModelState.IsValid)
+				return View(model);
+
+			if (!SessionInformation.SessionInfo.ContainsKey(model.SessionKey))
+			{
+				ModelState.AddModelError("SessionKey", "Invalid session key");
+				return View(model);
+			}
+
+			model.DocumentType = SessionInformation.SessionInfo[model.SessionKey].type;
+
+			return View("_JoinSession", model);
 		}
 	}
 }

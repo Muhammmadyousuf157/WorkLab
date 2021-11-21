@@ -9,5 +9,7 @@ namespace WorkLabWeb.Areas.WorkSpace.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter session key")]
         public string SessionKey { get; set; }
+
+        public string DocumentType { get; set; }
     }
 }

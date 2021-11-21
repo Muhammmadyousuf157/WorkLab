@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WorkLabWeb.Hubs;
 
 namespace WorkLabWeb
 {
@@ -45,6 +46,11 @@ namespace WorkLabWeb
 					Configuration["EmailSettings:Password"]
 				);
 
+			services.AddSignalR(o =>
+			{
+				o.MaximumReceiveMessageSize = 1024 * 30;
+			});
+
 			services.AddControllersWithViews(options => options.Filters.Add(new AuthorizeFilter()));
 		}
 
@@ -81,6 +87,12 @@ namespace WorkLabWeb
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+
+				endpoints.MapHub<SessionHub>("/sessionHub", options  =>
+				{
+					options.ApplicationMaxBufferSize = 1024 * 30;
+					options.TransportMaxBufferSize = 1024 * 30;
+				});
 			});
 		}
 	}

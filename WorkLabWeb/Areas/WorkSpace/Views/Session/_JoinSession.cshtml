@@ -1,26 +1,26 @@
-﻿@model string
+﻿@model JoinSessionViewModel
 
 @{
-    ViewData["Title"] = "New Session";
+    ViewData["Title"] = "Join Session";
 
     string partialmarkup = null;
 
-    if (Model == "document")
+    if (Model.DocumentType == "document")
     {
         partialmarkup = "_DocumentMarkupPartial";
     }
-    else if (Model == "spreadsheet")
+    else if (Model.DocumentType == "spreadsheet")
     {
         partialmarkup = "_SpreadsheetMarkupPartial";
     }
 }
 
 @section Styles {
-    @if (Model == "document")
+    @if (Model.DocumentType == "document")
     {
         <link rel="stylesheet" href="~/css/session/document.css" />
     }
-    else if (Model == "spreadsheet")
+    else if (Model.DocumentType == "spreadsheet")
     {
         <link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" />
     }
@@ -28,9 +28,11 @@
     <link rel="stylesheet" href="~/css/session/session.css" />
 }
 
-<input hidden id="document-type" value="@Model" />
+<input hidden id="session-type" value="join" />
 
-<input hidden id="session-type" value="new" />
+<input hidden id="session-username" type="text" value="@Model.UserName" />
+
+<input hidden id="session-key" type="text" value="@Model.SessionKey" />
 
 <partial name="_SessionMarkupPartial" model="partialmarkup" />
 
@@ -39,12 +41,12 @@
     <script src="~/js/session/sessionConnection.js"></script>
     <script src="~/js/session/session.js"></script>
 
-    @if (Model == "document")
+    @if (Model.DocumentType == "document")
     {
         <script src="~/lib/ckeditor/ckeditor.js"></script>
         <script src="~/js/session/document.js" asp-append-version="true"></script>
     }
-    else if (Model == "spreadsheet")
+    else if (Model.DocumentType == "spreadsheet")
     {
         <script src="~/lib/xspreadsheet/xspreadsheet.js"></script>
         <script src="~/js/session/spreadsheet.js" asp-append-version="true"></script>

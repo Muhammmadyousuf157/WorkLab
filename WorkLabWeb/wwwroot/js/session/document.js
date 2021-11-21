@@ -7,6 +7,8 @@
 
 		window.editor = editor;
 
+		bindEditorContentChangeEvent(editor);
+
 		editor.focus();
 
 		const fileUploader = `
@@ -68,3 +70,17 @@
 	.catch(err => {
 		console.error(err.stack);
 	});
+
+function bindEditorContentChangeEvent(editor) {
+	editor.model.document.on('change:data', async () => {
+		const editorContent = editor.getData();
+		await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
+	});
+
+	hubConnection.on('ReceiveEditorContent', editorContent => {
+		if (editor.getData() === editorContent)
+			return;
+
+		editor.setData(editorContent);
+	});
+}
