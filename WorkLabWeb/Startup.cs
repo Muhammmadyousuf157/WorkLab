@@ -48,7 +48,7 @@ namespace WorkLabWeb
 
 			services.AddSignalR(o =>
 			{
-				o.MaximumReceiveMessageSize = 1024 * 30;
+				o.MaximumReceiveMessageSize = null;
 			});
 
 			services.AddControllersWithViews(options => options.Filters.Add(new AuthorizeFilter()));
@@ -90,8 +90,8 @@ namespace WorkLabWeb
 
 				endpoints.MapHub<SessionHub>("/sessionHub", options  =>
 				{
-					options.ApplicationMaxBufferSize = 1024 * 30;
-					options.TransportMaxBufferSize = 1024 * 30;
+					options.ApplicationMaxBufferSize = 0;
+					options.TransportMaxBufferSize = 0;
 				});
 			});
 		}
