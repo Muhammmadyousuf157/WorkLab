@@ -73,6 +73,7 @@
 
 function bindEditorContentChangeEvent(editor) {
 	editor.model.document.on('change:data', async () => {
+		console.log(editor.model.document.selection.anchor);
 		const editorContent = editor.getData();
 		await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
 	});
