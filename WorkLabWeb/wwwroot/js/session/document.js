@@ -7,7 +7,7 @@
 
 		window.editor = editor;
 
-		bindEditorContentChangeEvent(editor);
+		bindEditorContentChangeEvent();
 
 		editor.focus();
 
@@ -25,7 +25,7 @@
 
 		$('.ck-toolbar[aria-label="Bulleted list styles toolbar"]').parent().parent().remove();
 
-		
+
 
 		const $fileDialog = $('.ck-toolbar__items .ck-file-dialog-button');
 
@@ -71,17 +71,17 @@
 		console.error(err.stack);
 	});
 
-function bindEditorContentChangeEvent(editor) {
-	editor.model.document.on('change:data', async () => {
-		console.log(editor.model.document.selection.anchor);
-		const editorContent = editor.getData();
-		await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
-	});
+async function broadcastEditorContent(event, data) {
+	const editorContent = editor.getData();
+	await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
+}
+
+function bindEditorContentChangeEvent() {
+	editor.model.document.on('change:data', broadcastEditorContent);
 
 	hubConnection.on('ReceiveEditorContent', editorContent => {
-		if (editor.getData() === editorContent)
-			return;
-
+		editor.model.document.off('change:data', broadcastEditorContent);
 		editor.setData(editorContent);
+		editor.model.document.on('change:data', broadcastEditorContent);
 	});
 }

@@ -20,5 +20,6 @@ hubConnection.on('ReceiveSpreadSheetContent', spreadSheetContent => {
 
 s.change(async data => {
     const spreadSheetContent = JSON.stringify(data);
+    console.log(data);
     await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 });
