@@ -4,7 +4,7 @@
     {
         public static string GetWelcomeMessage(string userName)
         {
-            return $"<span>Welcome to CODESK <span class=\"yellow-text\"> {userName}</span></span>";
+            return $"<span>Welcome to WORKLAB <span class=\"yellow-text\"> {userName}</span></span>";
         }
 
         public static string GetUserJoinMessage(string userName)
