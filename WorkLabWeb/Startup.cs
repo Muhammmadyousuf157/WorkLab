@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using WorkLabWeb.Hubs;
 
 namespace WorkLabWeb
@@ -49,7 +50,9 @@ namespace WorkLabWeb
 			services.AddSignalR(o =>
 			{
 				o.MaximumReceiveMessageSize = null;
-			});
+				o.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+				o.KeepAliveInterval = TimeSpan.FromSeconds(30);
+			}).AddMessagePackProtocol();
 
 			services.AddControllersWithViews(options => options.Filters.Add(new AuthorizeFilter()));
 		}
@@ -92,6 +95,7 @@ namespace WorkLabWeb
 				{
 					options.ApplicationMaxBufferSize = 0;
 					options.TransportMaxBufferSize = 0;
+					options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
 				});
 			});
 		}

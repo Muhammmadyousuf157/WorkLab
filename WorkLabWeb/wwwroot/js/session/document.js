@@ -20,7 +20,7 @@
 					<span class="ck ck-tooltip__text">Insert image</span>
 				</span>
 			</button>
-			<input type="file" hidden />
+			<input type="file" hidden multiple />
 		`;
 
 		$('.ck-toolbar[aria-label="Bulleted list styles toolbar"]').parent().parent().remove();
@@ -36,16 +36,33 @@
 			$(this).next().trigger('click');
 		});
 
-		$fileDialog.delegate('input[type="file"]', 'change', function () {
+		$fileDialog.delegate('input[type="file"]', 'change', async function () {
 			if (!this.files)
 				return;
 
-			const reader = new FileReader();
+			const formData = new FormData();
 
-			reader.onload = e => {
-				const imageMarkup = `
+			for (const file of this.files)
+				formData.append('imageFiles', file);
+
+			const response = await fetch('/WorkSpace/Session/UploadImageFile', {
+				method: 'POST',
+				body: formData
+			});
+
+			if (response.status !== 200) {
+				showAlert('something went wrong while uploading the image');
+				return;
+			}
+
+			const data = await response.json();
+
+			let output = '';
+
+			data.forEach(path => {
+				output += `
 					<figure class="image ck-widget ck-widget_selected" contenteditable="false">
-						<img src="${e.target.result}" />
+						<img src="${path}" />
 						<figcaption class="ck-editor__editable ck-editor__nested-editable" data-placeholder="Enter image caption" contenteditable="true"></figcaption>
 						<div class="ck ck-reset_all ck-widget__type-around">
 							<div class="ck ck-widget__type-around__button ck-widget__type-around__button_before" title="Insert paragraph before block">
@@ -58,13 +75,9 @@
 						</div>
 					</figure>
 				`;
+			});
 
-				editor.setData(editor.getData() + imageMarkup);
-
-				console.log(e.target.result);
-			};
-
-			reader.readAsDataURL(this.files[0]);
+			editor.setData(editor.getData() + output);
 		});
 	})
 	.catch(err => {

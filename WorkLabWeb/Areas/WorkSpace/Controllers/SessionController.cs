@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WorkLabLibrary.DataAccess;
@@ -10,6 +15,13 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 {
 	public class SessionController : Controller
 	{
+		private readonly IWebHostEnvironment _env;
+
+		public SessionController(IWebHostEnvironment env)
+		{
+			_env = env;
+		}
+
 		public IActionResult Dashboard()
 		{
 			return View();
@@ -55,6 +67,27 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			model.DocumentType = SessionInformation.SessionInfo[model.SessionKey].type;
 
 			return View("_JoinSession", model);
+		}
+
+		[HttpPost]
+		public List<string> UploadImageFile(List<IFormFile> imageFiles)
+		{
+			var imagePaths = new List<string>();
+
+			var uploadFolder = Path.Combine(_env.WebRootPath, "assets", "document", "images");
+
+			imageFiles.ForEach(file =>
+			{
+				var fileName = $"{Guid.NewGuid()}_{Path.GetRandomFileName()}_{file.FileName}";
+				var filePath = Path.Combine(uploadFolder, fileName);
+				var fileStream = new FileStream(filePath, FileMode.Create);
+				file.CopyTo(fileStream);
+				fileStream.Dispose();
+
+				imagePaths.Add($"/assets/document/images/{fileName}");
+			});
+
+			return imagePaths;
 		}
 	}
 }

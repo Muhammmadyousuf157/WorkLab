@@ -18,14 +18,14 @@
 @section Styles {
     @if (Model.DocumentType == "document")
     {
-        <link rel="stylesheet" href="~/css/session/document.css" />
+        <link rel="stylesheet" href="~/css/session/document.css" asp-append-version="true" />
     }
     else if (Model.DocumentType == "spreadsheet")
     {
-        <link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" />
+        <link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" asp-append-version="true" />
     }
 
-    <link rel="stylesheet" href="~/css/session/session.css" />
+    <link rel="stylesheet" href="~/css/session/session.css" asp-append-version="true" />
 }
 
 <input hidden id="session-type" value="join" />
@@ -38,8 +38,9 @@
 
 @section Scripts {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/js/session/sessionConnection.js"></script>
-    <script src="~/js/session/session.js"></script>
+	<script src="~/lib/microsoft/signalr-protocol-msgpack/dist/browser/signalr-protocol-msgpack.min.js"></script>
+    <script src="~/js/session/sessionConnection.js" asp-append-version="true"></script>
+    <script src="~/js/session/session.js" asp-append-version="true"></script>
 
     @if (Model.DocumentType == "document")
     {

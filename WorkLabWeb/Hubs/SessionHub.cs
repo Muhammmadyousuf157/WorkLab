@@ -65,6 +65,7 @@ namespace WorkLabWeb.Hubs
                 .ConfigureAwait(false);
         }
 
+
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             foreach (var item in SessionInformation.SessionInfo)
@@ -100,5 +101,6 @@ namespace WorkLabWeb.Hubs
             await base.OnDisconnectedAsync(exception)
                 .ConfigureAwait(false);
         }
+    
     }
 }
