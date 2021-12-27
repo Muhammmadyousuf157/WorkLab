@@ -69,6 +69,7 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			return View("_JoinSession", model);
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		public List<string> UploadImageFile(List<IFormFile> imageFiles)
 		{
