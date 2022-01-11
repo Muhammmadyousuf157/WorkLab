@@ -49,7 +49,7 @@
     }
 
     function removeUser(user) {
-        sessionUsers = sessionUsers.filter(x => x.userId !== user.UserId);
+        sessionUsers = sessionUsers.filter(x => x.UserId !== user.UserId);
         $('.participant-list ul').find(`li a[data-userid="${user.UserId}"]`).parent().remove();
     }
 
