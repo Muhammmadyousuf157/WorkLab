@@ -1,4 +1,15 @@
-﻿@{ var partialName = User.Identity.IsAuthenticated ? "_AuthenticatedNavPartial" : "_UnAuthenticatedNavPartial"; }
+﻿@{
+	var partialName = string.Empty;
+
+	if (ViewBag.IsSession is not null)
+	{
+		partialName = "_SessionNavPartial";
+	}
+	else
+	{
+		partialName = User.Identity.IsAuthenticated ? "_AuthenticatedNavPartial" : "_UnAuthenticatedNavPartial";
+	}
+}
 
 <nav class="green darken-2">
 	<div class="nav-wrapper">

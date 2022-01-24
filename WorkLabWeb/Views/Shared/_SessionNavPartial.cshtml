@@ -1,0 +1,22 @@
+﻿<ul class="right hide-on-med-and-down">
+	@*@if (ViewBag.NewSession is not null)
+	{
+		<li>
+			<span id="file-title-placeholder"></span>
+			<input id="file-title" spellcheck="false" autocomplete="off" type="text" class="browser-default indigo lighten-1 white-text">
+		</li>
+	}*@
+	<li>
+		<a><span id="session-time" style="font-weight: 500" class="new badge white black-text" data-badge-caption=""></span></a>
+	</li>
+	<li>
+		@if (ViewBag.NewSession is not null)
+		{
+			<a id="end-btn" class="btn-small waves-effect waves-light red darken-2">End Session</a>
+		}
+		else if (ViewBag.JoinSession is not null)
+		{
+			<a id="leave-btn" class="btn-small waves-effect waves-light red darken-2">Leave</a>
+		}
+	</li>
+</ul>

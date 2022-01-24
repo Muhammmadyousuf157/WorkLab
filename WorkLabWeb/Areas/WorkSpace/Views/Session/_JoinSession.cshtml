@@ -1,18 +1,20 @@
 ﻿@model JoinSessionViewModel
 
 @{
-    ViewData["Title"] = "Join Session";
+	ViewData["Title"] = "Join Session";
 
-    string partialmarkup = null;
+	string partialmarkup = null;
 
-    if (Model.DocumentType == "document")
-    {
-        partialmarkup = "_DocumentMarkupPartial";
-    }
-    else if (Model.DocumentType == "spreadsheet")
-    {
-        partialmarkup = "_SpreadsheetMarkupPartial";
-    }
+	if (Model.DocumentType == "document")
+	{
+		partialmarkup = "_DocumentMarkupPartial";
+	}
+	else if (Model.DocumentType == "spreadsheet")
+	{
+		partialmarkup = "_SpreadsheetMarkupPartial";
+	}
+
+	var flag = User.Identity.IsAuthenticated ? "yes" : "no";
 }
 
 @section Styles {
@@ -29,6 +31,8 @@
 }
 
 <input hidden id="session-type" value="join" />
+
+<input hidden id="user-authenticated" value="@flag" />
 
 <input hidden id="session-username" type="text" value="@Model.UserName" />
 

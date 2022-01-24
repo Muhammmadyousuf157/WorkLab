@@ -36,6 +36,9 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			if (!result)
 				return RedirectToAction("Dashboard", "Session", new { Area = "WorkSpace" });
 
+			ViewBag.IsSession = true;
+			ViewBag.NewSession = true;
+
 			return View("NewSession", type);
 		}
 
@@ -65,6 +68,9 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			}
 
 			model.DocumentType = SessionInformation.SessionInfo[model.SessionKey].type;
+
+			ViewBag.IsSession = true;
+			ViewBag.JoinSession = true;
 
 			return View("_JoinSession", model);
 		}

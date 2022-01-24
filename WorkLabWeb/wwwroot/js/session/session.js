@@ -1,11 +1,17 @@
 ﻿$(document).ready(async () => {
-    $('#video-panel').sidenav({ edge: 'right' });
-
     await hubConnection.start();
 
-    window.addEventListener('beforeunload', e => {
-        e.preventDefault();
-        e.returnValue = '';
+    $('#session-time').attr('data-badge-caption', getCurrentDateTime());
+
+    addEventListener('beforeunload', askUserBeforeUnload);
+
+    $('#end-btn').click(async () => {
+        await hubConnection.invoke('EndSessionForAll', getCurrentDateTime(), sessionKey);
+        leaveSession();
+    });
+
+    $('#leave-btn').click(() => {
+        leaveSession();
     });
 
     $('#copy-session-key').click(() => {
@@ -41,6 +47,31 @@
         }
 
         $list.html(markup);
+    }
+
+    function askUserBeforeUnload(e) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+
+    function leaveSession() {
+        removeEventListener('beforeunload', askUserBeforeUnload);
+
+        if ($('#user-authenticated').val() === 'yes')
+            location.replace('/WorkSpace/Session/Dashboard');
+        else if ($('#user-authenticated').val() === 'no')
+            location.replace('/');
+    }
+
+    function getCurrentDateTime() {
+        return new Date().toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
     }
 
     function addUser(user) {
@@ -83,6 +114,11 @@
 
     hubConnection.on('NotifyUser', notification => {
         M.toast({ html: notification });
+    });
+
+    hubConnection.on('EndSession', async () => {
+        await hubConnection.stop();
+        leaveSession();
     });
 
     if ($('#session-type').val() === 'new') {

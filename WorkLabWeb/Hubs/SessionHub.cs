@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WorkLabWeb.HubModels;
 
@@ -17,7 +18,7 @@ namespace WorkLabWeb.Hubs
 
             var user = new ConnectedUser { UserId = Context.ConnectionId, UserName = userName };
 
-            SessionInformation.SessionInfo.Add(sessionKey, (type, new List<ConnectedUser> { user }));
+            SessionInformation.SessionInfo.Add(sessionKey, (type, Context.ConnectionId, new List<ConnectedUser> { user }));
 
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionKey)
                 .ConfigureAwait(false);
@@ -65,6 +66,19 @@ namespace WorkLabWeb.Hubs
                 .ConfigureAwait(false);
         }
 
+        [Authorize]
+        public async Task EndSessionForAll(string endDateTime, string sessionKey)
+        {
+            if (!string.Equals(Context.ConnectionId, SessionInformation.SessionInfo[sessionKey].hostId))
+                return;
+
+            await Clients.OthersInGroup(sessionKey).EndSession()
+                .ConfigureAwait(false);
+
+            SessionInformation.SessionInfo[sessionKey].connectedUsers.ForEach(u => Groups.RemoveFromGroupAsync(u.UserId, sessionKey));
+
+            SessionInformation.SessionInfo.Remove(sessionKey);
+        }
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {

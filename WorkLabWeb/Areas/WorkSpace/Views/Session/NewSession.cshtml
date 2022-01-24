@@ -1,18 +1,20 @@
 ﻿@model string
 
 @{
-    ViewData["Title"] = "New Session";
+	ViewData["Title"] = "New Session";
 
-    string partialmarkup = null;
+	string partialmarkup = null;
 
-    if (Model == "document")
-    {
-        partialmarkup = "_DocumentMarkupPartial";
-    }
-    else if (Model == "spreadsheet")
-    {
-        partialmarkup = "_SpreadsheetMarkupPartial";
-    }
+	if (Model == "document")
+	{
+		partialmarkup = "_DocumentMarkupPartial";
+	}
+	else if (Model == "spreadsheet")
+	{
+		partialmarkup = "_SpreadsheetMarkupPartial";
+	}
+
+	var flag = User.Identity.IsAuthenticated ? "yes" : "no";
 }
 
 @section Styles {
@@ -31,6 +33,8 @@
 <input hidden id="document-type" value="@Model" />
 
 <input hidden id="session-type" value="new" />
+
+<input hidden id="user-authenticated" value="@flag" />
 
 <partial name="_SessionMarkupPartial" model="partialmarkup" />
 

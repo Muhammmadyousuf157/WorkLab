@@ -1,16 +1,11 @@
-﻿@{ var action = ViewContext.RouteData.Values["Action"].ToString();
-
-    bool isSession = action == "NewSession" ? true : false;
-}
-
-@if (!isSession)
+﻿@if (ViewBag.IsSession is null)
 {
-<footer class="page-footer white">
-	<div class="footer-copyright grey lighten-5">
-		<div class="container blue-grey-text">
-			<a asp-area="" asp-controller="Home" asp-action="Index">WorkLab</a> |
-			Copyright © @DateTime.Now.Year WorkLab - All rights reserved.
+	<footer class="page-footer white">
+		<div class="footer-copyright grey lighten-5">
+			<div class="container blue-grey-text">
+				<a asp-area="" asp-controller="Home" asp-action="Index">WorkLab</a> |
+				Copyright © @DateTime.Now.Year WorkLab - All rights reserved.
+			</div>
 		</div>
-	</div>
-</footer>
+	</footer>
 }

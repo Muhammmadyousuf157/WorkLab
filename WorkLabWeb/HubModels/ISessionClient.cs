@@ -18,5 +18,7 @@ namespace WorkLabWeb.HubModels
         Task ReceiveEditorContent(string editorContent);
 
         Task ReceiveSpreadSheetContent(string spreadSheetContent);
+
+        Task EndSession();
     }
 }

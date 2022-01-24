@@ -7,6 +7,8 @@ $('.x-spreadsheet-toolbar-btns').children().eq(26).hide();
 $('.x-spreadsheet-toolbar-btns').children().eq(0).hide();
 $('.x-spreadsheet-toolbar-btns').children().eq(1).hide();
 
+$('.x-spreadsheet-toolbar-btns').children().eq(18).find('.x-spreadsheet-dropdown-content').css({"width": "260px"});
+
 $('.x-spreadsheet-toolbar-btns').children().eq(6).first().children().eq(0).children().eq(1).children().eq(8).hide();
 $('.x-spreadsheet-toolbar-btns').children().eq(6).first().children().eq(0).children().eq(1).children().eq(9).hide();
 $('.x-spreadsheet-toolbar-btns').children().eq(6).first().children().eq(0).children().eq(1).children().eq(10).hide();

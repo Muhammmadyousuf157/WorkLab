@@ -5,6 +5,7 @@
     $('.modal').modal({
         dismissible: false
     });
+    $('#video-panel').sidenav({ edge: 'right' });
 });
 
 function showAlert(title = null, message, dark, okText) {
