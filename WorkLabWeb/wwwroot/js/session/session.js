@@ -16,7 +16,7 @@
 
     $('#copy-session-key').click(() => {
         navigator.clipboard.writeText($('#session-key-chip').text());
-        M.toast({ html: 'Copied to clipboard' });
+        M.toast({ html: 'Copied to clipboard', classes: 'rounded' });
     });
 
     $('#participant-search').keyup(function () {
@@ -113,7 +113,7 @@
     });
 
     hubConnection.on('NotifyUser', notification => {
-        M.toast({ html: notification });
+        M.toast({ html: notification, classes: 'rounded' });
     });
 
     hubConnection.on('EndSession', async () => {

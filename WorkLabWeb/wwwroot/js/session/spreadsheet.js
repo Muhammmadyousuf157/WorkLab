@@ -22,6 +22,7 @@ hubConnection.on('ReceiveSpreadSheetContent', spreadSheetContent => {
 
 s.change(async data => {
     const spreadSheetContent = JSON.stringify(data);
-    console.log(data);
+    const kiloBytes = new Blob([spreadSheetContent]).size / 1000;
+    console.log(kiloBytes);
     await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 });

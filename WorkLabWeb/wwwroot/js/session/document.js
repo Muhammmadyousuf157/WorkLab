@@ -78,15 +78,24 @@
 			});
 
 			editor.setData(editor.getData() + output);
+
+			this.value = null;
 		});
 	})
 	.catch(err => {
 		console.error(err.stack);
 	});
 
+let timeout = undefined;
+
 async function broadcastEditorContent(event, data) {
-	const editorContent = editor.getData();
-	await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
+	if (timeout)
+		clearTimeout(timeout);
+
+	timeout = setTimeout(async () => {
+		const editorContent = editor.getData();
+		await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
+	}, 1000);
 }
 
 function bindEditorContentChangeEvent() {
