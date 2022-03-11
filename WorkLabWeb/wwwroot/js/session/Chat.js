@@ -14,8 +14,8 @@
                 border: 4,
                 x: 'center',
                 y: 'center',
-                width: 500,
-                height: 600,
+                width: 505,
+                height: 605,
                 mount: document.querySelector('#chat-box-markup').firstElementChild,
                 onclose: () => {
                     isChatBox = false
