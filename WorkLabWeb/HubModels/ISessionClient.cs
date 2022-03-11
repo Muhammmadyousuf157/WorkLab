@@ -19,6 +19,12 @@ namespace WorkLabWeb.HubModels
 
         Task ReceiveSpreadSheetContent(string spreadSheetContent);
 
+        Task ReceiveMessage(string message, string userName);
+
+        Task StartMessageTypingIndication(string userName);
+       
+        Task StopMessageTypingIndication();
+
         Task EndSession();
     }
 }

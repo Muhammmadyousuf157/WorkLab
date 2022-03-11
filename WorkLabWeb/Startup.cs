@@ -79,8 +79,7 @@ namespace WorkLabWeb
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseAuthorization();
-
+			
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(

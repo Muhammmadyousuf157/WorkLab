@@ -1,18 +1,15 @@
-﻿@{ 
-	ViewData["Title"] = "Dashboard";
+﻿@{ ViewData["Title"] = "Dashboard";
 
 	var email = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
 
-	var isConfirmed = await EmailManager.IsEmailConfirmed(email);
-}
+	var isConfirmed = await EmailManager.IsEmailConfirmed(email); }
 
 @if (isConfirmed)
 {
-	<partial name="_EmailConfirmedDashboardPartial" /> 
-}
-else
-{
-	<partial name="_EmailUnConfirmedDashboardPartial" />
+<partial name="_EmailConfirmedDashboardPartial" /> }
+			else
+			{
+<partial name="_EmailUnConfirmedDashboardPartial" />
 }
 
 @section Scripts {

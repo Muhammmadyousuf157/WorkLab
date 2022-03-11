@@ -18,16 +18,18 @@
 }
 
 @section Styles {
-    @if (Model.DocumentType == "document")
-    {
-        <link rel="stylesheet" href="~/css/session/document.css" asp-append-version="true" />
-    }
-    else if (Model.DocumentType == "spreadsheet")
-    {
-        <link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" asp-append-version="true" />
-    }
+	@if (Model.DocumentType == "document")
+	{
+		<link rel="stylesheet" href="~/css/session/document.css" asp-append-version="true" />
+	}
+	else if (Model.DocumentType == "spreadsheet")
+	{
+		<link rel="stylesheet" href="~/lib/xspreadsheet/xspreadsheet.css" asp-append-version="true" />
+	}
 
-    <link rel="stylesheet" href="~/css/session/session.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/session/session.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/session/Chat.css" asp-append-version="true" />
+
 }
 
 <input hidden id="session-type" value="join" />
@@ -41,19 +43,21 @@
 <partial name="_SessionMarkupPartial" model="partialmarkup" />
 
 @section Scripts {
-    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+	<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
 	<script src="~/lib/microsoft/signalr-protocol-msgpack/dist/browser/signalr-protocol-msgpack.min.js"></script>
-    <script src="~/js/session/sessionConnection.js" asp-append-version="true"></script>
-    <script src="~/js/session/session.js" asp-append-version="true"></script>
+	<script src="~/lib/winbox/dist/winbox.bundle.min.js"></script>
+	<script src="~/js/session/sessionConnection.js" asp-append-version="true"></script>
+	<script src="~/js/session/session.js" asp-append-version="true"></script>
+	<script src="~/js/session/Chat.js" asp-append-version="true"></script>
 
-    @if (Model.DocumentType == "document")
-    {
-        <script src="~/lib/ckeditor/ckeditor.js"></script>
-        <script src="~/js/session/document.js" asp-append-version="true"></script>
-    }
-    else if (Model.DocumentType == "spreadsheet")
-    {
-        <script src="~/lib/xspreadsheet/xspreadsheet.js"></script>
-        <script src="~/js/session/spreadsheet.js" asp-append-version="true"></script>
-    }
+	@if (Model.DocumentType == "document")
+	{
+		<script src="~/lib/ckeditor/ckeditor.js"></script>
+		<script src="~/js/session/document.js" asp-append-version="true"></script>
+	}
+	else if (Model.DocumentType == "spreadsheet")
+	{
+		<script src="~/lib/xspreadsheet/xspreadsheet.js"></script>
+		<script src="~/js/session/spreadsheet.js" asp-append-version="true"></script>
+	}
 }

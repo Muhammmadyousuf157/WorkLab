@@ -80,6 +80,25 @@ namespace WorkLabWeb.Hubs
             SessionInformation.SessionInfo.Remove(sessionKey);
         }
 
+        public async Task SendMessage(string message, string sessionKey)
+        {
+            string userName = SessionInformation.SessionInfo[sessionKey].connectedUsers.Find(user => user.UserId == Context.ConnectionId).UserName;
+
+            await Clients.OthersInGroup(sessionKey).ReceiveMessage(message, userName)
+                .ConfigureAwait(false);
+        }
+
+        public async Task StartedMessageTyping(string sessionKey, string userName)
+        {
+            await Clients.OthersInGroup(sessionKey).StartMessageTypingIndication(userName)
+                .ConfigureAwait(false);
+        }
+
+        public async Task StoppedMessageTyping(string sessionKey)
+        {
+            await Clients.OthersInGroup(sessionKey).StopMessageTypingIndication()
+                .ConfigureAwait(false);
+        }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             foreach (var item in SessionInformation.SessionInfo)

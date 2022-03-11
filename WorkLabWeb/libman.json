@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "winbox@0.2.1",
+      "destination": "wwwroot/lib/winbox/",
+      "files": [
+        "dist/winbox.bundle.min.js",
+        "dist/css/winbox.min.css"
+      ]
+    }
+  ]
+}
