@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\document\images\" />
+    <Folder Include="wwwroot\assets\session\files\" />
   </ItemGroup>
 
 </Project>

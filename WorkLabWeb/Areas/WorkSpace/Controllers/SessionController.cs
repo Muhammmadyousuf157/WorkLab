@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WorkLabLibrary.DataAccess;
 using WorkLabWeb.Areas.WorkSpace.Models;
 using WorkLabWeb.HubModels;
+using CodeFile = System.IO.File;
 
 namespace WorkLabWeb.Areas.WorkSpace.Controllers
 {
@@ -22,9 +23,13 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			_env = env;
 		}
 
-		public IActionResult Dashboard()
+		public async Task<IActionResult> Dashboard()
 		{
-			return View();
+			var email = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
+
+			var sessions = await SessionManager.GetSessions(email).ConfigureAwait(false);
+
+			return View(sessions);
 		}
 
 		public async Task<IActionResult> NewSession(string type)
@@ -40,6 +45,53 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			ViewBag.NewSession = true;
 
 			return View("NewSession", type);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> SaveSession(string startDateTime, string sessionKey, string type)
+		{
+			var fileName = $"{Guid.NewGuid()}_{Path.GetRandomFileName()}.txt";
+
+			var filePath = Path.Combine(_env.WebRootPath, "assets", "session", "files", fileName);
+
+			await CodeFile.Create(filePath).DisposeAsync();
+
+			var email = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
+
+			return Ok(await SessionManager.SaveSession(email, startDateTime, sessionKey, fileName, type).ConfigureAwait(false));
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		public async Task<IActionResult> SaveParticipant(string userName, string sessionKey)
+		{
+			await SessionManager.SaveParticipant(userName, sessionKey).ConfigureAwait(false);
+
+			return Ok();
+		}
+
+		//[HttpPost]
+		//public async Task<IActionResult> DeleteSession(int sessionId)
+		//{
+		//	await SessionManager.DeleteSession(sessionId).ConfigureAwait(false);
+
+		//	return Ok();
+		//}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateFileContent([FromQuery] string filePath, [FromQuery] string sessionKey, [FromBody] string fileContent)
+		{
+			var path = Path.Combine(_env.WebRootPath, "assets", "session", "files", filePath);
+
+			if (!CodeFile.Exists(path))
+				return BadRequest();
+
+			SessionInformation.SessionInfo[sessionKey].fileContent.Clear();
+			SessionInformation.SessionInfo[sessionKey].fileContent.Append(fileContent);
+
+			await CodeFile.WriteAllTextAsync(path, fileContent).ConfigureAwait(false);
+
+			return Ok();
 		}
 
 		[AllowAnonymous]

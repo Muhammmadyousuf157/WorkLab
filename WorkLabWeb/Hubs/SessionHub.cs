@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using WorkLabWeb.HubModels;
+using WorkLabLibrary.DataAccess;
 
 namespace WorkLabWeb.Hubs
 {
@@ -18,12 +20,12 @@ namespace WorkLabWeb.Hubs
 
             var user = new ConnectedUser { UserId = Context.ConnectionId, UserName = userName };
 
-            SessionInformation.SessionInfo.Add(sessionKey, (type, Context.ConnectionId, new List<ConnectedUser> { user }));
+            SessionInformation.SessionInfo.Add(sessionKey, (type, new StringBuilder(), Context.ConnectionId, new List<ConnectedUser> { user }));
 
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionKey)
                 .ConfigureAwait(false);
 
-            await Clients.Caller.ReceiveNewSessionInfo(user, sessionKey)
+            await Clients.Caller.ReceiveNewSessionInfo(user, sessionKey, type)
                 .ConfigureAwait(false);
 
             await Clients.Caller.NotifyUser(NotificationMessage.GetWelcomeMessage(userName))
@@ -75,7 +77,9 @@ namespace WorkLabWeb.Hubs
             await Clients.OthersInGroup(sessionKey).EndSession()
                 .ConfigureAwait(false);
 
-            SessionInformation.SessionInfo[sessionKey].connectedUsers.ForEach(u => Groups.RemoveFromGroupAsync(u.UserId, sessionKey));
+            var email = Context.User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
+
+            await SessionManager.EndSession(email, endDateTime, sessionKey).ConfigureAwait(false);
 
             SessionInformation.SessionInfo.Remove(sessionKey);
         }

@@ -8,3 +8,6 @@ const hubConnection = new signalR.HubConnectionBuilder()
 
 hubConnection.serverTimeoutInMilliseconds = 60000;
 hubConnection.keepAliveIntervalInMilliseconds = 30000;
+
+let sessionCurrentFile = undefined;
+let fileType = undefined;

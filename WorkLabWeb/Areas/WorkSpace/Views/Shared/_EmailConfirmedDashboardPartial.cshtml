@@ -1,1 +1,67 @@
-﻿<center><h1>DASHBOARD</h1></center>
+﻿@model IEnumerable<Session>
+
+@if (Model.Count() < 1)
+{
+	<center><h1 class="grey-text text-lighten-1" style="margin-top:300px;">No Sessions</h1></center>
+}
+else
+{
+	<div class="dashboard-container">
+			<div class="row">
+				@foreach (var item in Model)
+				{
+					<div class="col l3">
+						<div class="card rounded-5 animate__animated animate__fadeIn" style="cursor:pointer;">
+							<div class="card-image top-left-rounded-5 top-right-rounded-5" style="padding-top:5px;">
+								<img src="~/images/@(item.FileTypeId == 1 ? "document_icon_dashboard.svg" : "spreadsheet_icon_dashboard.svg")" height="150">
+							</div>
+							<div class="card-content">
+								<span class="card-title grey-text text-darken-4">@item.Title</span>
+
+								<table style="margin-top: 30px;">
+									<tr class="no-border">
+										<td class="grey-text no-padding">Started at</td>
+										<td class="no-padding">
+											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.StartedAt</div>
+										</td>
+										<td class="grey-text no-padding">Participant(s)</td>
+										<td class="no-padding">
+											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.ParticipantCount</div>
+										</td>
+									</tr>
+									<tr class="no-border">
+										<td class="grey-text no-padding">Ended at</td>
+										<td class="no-padding">
+											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.EndedAt</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="card-reveal">
+								<div class="view-sp">
+									<span class="card-title grey-text text-darken-4">Participants(s)<i class="material-icons right">close</i></span>
+
+									<ul class="collection" style="margin-top: 35px;">
+										@if (item.Participants is not null)
+										{
+											@foreach (var name in item.Participants.Split(','))
+											{
+												<li class="collection-item @(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1")">@name</li>
+											}
+										}
+										else
+										{
+											<li class="collection-item @(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1")">No Participants</li>
+										}
+									</ul>
+								</div>
+							</div>
+							<div class="card-action">
+								<a data-type="view-sp" style="cursor: pointer;" class="@(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1") tooltipped activator" data-position="bottom" data-tooltip="Participant(s)"><i class="material-icons">people</i></a>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+}

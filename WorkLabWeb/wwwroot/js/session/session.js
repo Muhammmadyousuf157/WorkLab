@@ -88,18 +88,72 @@
         $('#no-of-participants').text(sessionUsers.length);
     }
 
-    hubConnection.on('ReceiveNewSessionInfo', (user, _sessionKey) => {
+    let fileSaveTimeout = undefined;
+
+    function configSessionFileUpdate(content) {
+        if (!sessionCurrentFile) return;
+
+        if (fileSaveTimeout) clearTimeout(fileSaveTimeout);
+
+        fileSaveTimeout = setTimeout(async () => {
+            const url = `/WorkSpace/Session/UpdateFileContent?filePath=${sessionCurrentFile.filePath}&sessionKey=${sessionKey}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(content)
+            });
+
+            if (response.status !== 200)
+                showAlert('Error', 'something went wrong while saving the file', true, 'OK');
+        }, 3000);
+    }
+
+    function configureContentChangeEvent() {
+        if (fileType === 'document') {
+            console.log(editor);
+            editor.model.document.on('change:data', () => {
+                configSessionFileUpdate(editor.getData());
+            });
+        } else if (fileType === 'spreadsheet') {
+            s.change(async data => {
+                const spreadSheetContent = JSON.stringify(data);
+                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
+
+                configSessionFileUpdate(JSON.stringify(data));
+            });
+        }
+	}
+
+    hubConnection.on('ReceiveNewSessionInfo', async (user, _sessionKey, type) => {
         sessionKey = _sessionKey;
         addUser(user);
         updateParticipantCount();
+        fileType = type;
 
         $('#session-key-chip').text(_sessionKey);
+
+        const url = `/WorkSpace/Session/SaveSession?startDateTime=${getCurrentDateTime()}&sessionKey=${_sessionKey}&type=${type}`;
+        const response = await fetch(url, { method: 'POST' });
+
+        if (response.status !== 200)
+            showAlert('Error', 'something went wrong while creating the session', true, 'OK');
+        else
+            sessionCurrentFile = await response.json();
+
+        configureContentChangeEvent();
     });
 
-    hubConnection.on('ReceiveJoinSessionInfo', users => {
+    hubConnection.on('ReceiveJoinSessionInfo', async users => {
         sessionUsers = users;
         showUsers(users);
         updateParticipantCount();
+
+
+        const url = `/WorkSpace/Session/SaveParticipant?userName=${$('#session-username').val()}&sessionKey=${$('#session-key').val()}`;
+        const response = await fetch(url, { method: 'POST' });
+
+        if (response.status !== 200)
+            showAlert('Error', 'something went wrong while joining the session', true, 'OK');
     });
 
     hubConnection.on('AddUser', user => {

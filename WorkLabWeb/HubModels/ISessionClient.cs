@@ -5,7 +5,7 @@ namespace WorkLabWeb.HubModels
 {
     public interface ISessionClient
     {
-        Task ReceiveNewSessionInfo(ConnectedUser user, string sessionKey);
+        Task ReceiveNewSessionInfo(ConnectedUser user, string sessionKey, string type);
 
         Task ReceiveJoinSessionInfo(List<ConnectedUser> users);
 
