@@ -1,4 +1,6 @@
-﻿DecoupledEditor
+﻿$('#editor').html($('#editor-content').text());
+
+DecoupledEditor
 	.create(document.querySelector('#editor'), { removePlugins: ['MediaEmbed'] })
 	.then(editor => {
 		const toolbarContainer = document.querySelector('main .toolbar-container');

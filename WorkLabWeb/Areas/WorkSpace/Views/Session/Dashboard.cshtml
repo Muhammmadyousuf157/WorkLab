@@ -6,12 +6,20 @@
 
 @if (isConfirmed)
 {
-<partial name="_EmailConfirmedDashboardPartial" /> }
-			else
-			{
-<partial name="_EmailUnConfirmedDashboardPartial" />
+	<partial name="_EmailConfirmedDashboardPartial" />
+}
+else
+{
+	<partial name="_EmailUnConfirmedDashboardPartial" />
 }
 
 @section Scripts {
-	<script src="/js/Account/emailConfirmation.js"></script>
+	@if (isConfirmed)
+	{
+		<script src="~/js/Account/dashboard.js" asp-append-version="true"></script>
+	}
+	else
+	{
+		<script src="/js/Account/emailConfirmation.js" asp-append-version="true"></script>
+	}
 }

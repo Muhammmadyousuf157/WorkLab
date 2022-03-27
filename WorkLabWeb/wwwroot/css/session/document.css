@@ -345,3 +345,7 @@ main .content-container {
         grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) );
     }
 }
+
+#file-title {
+    display: inline;
+}

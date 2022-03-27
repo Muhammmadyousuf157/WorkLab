@@ -40,6 +40,8 @@
 
 <input hidden id="session-key" type="text" value="@Model.SessionKey" />
 
+<div hidden id="editor-content">@SessionInformation.SessionInfo[Model.SessionKey].fileContent.ToString()</div>
+
 <partial name="_SessionMarkupPartial" model="partialmarkup" />
 
 @section Scripts {

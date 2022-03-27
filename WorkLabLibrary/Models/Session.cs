@@ -9,8 +9,8 @@ namespace WorkLabLibrary.Models
 	public class Session
 	{
         public int SessionId { get; set; }
-
-        public string Title { get; set; }
+        
+        public string SessionDate { get; set; }
 
         public string StartedAt { get; set; }
 
@@ -23,6 +23,8 @@ namespace WorkLabLibrary.Models
         public int FileTypeId { get; set; }
 
         public string FileTitle { get; set; }
+
+        public string FilePath { get; set; }
 
         public string Participants { get; set; }
 

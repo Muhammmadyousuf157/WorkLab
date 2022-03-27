@@ -12,11 +12,14 @@ else
 				{
 					<div class="col l3">
 						<div class="card rounded-5 animate__animated animate__fadeIn" style="cursor:pointer;">
-							<div class="card-image top-left-rounded-5 top-right-rounded-5" style="padding-top:5px;">
-								<img src="~/images/@(item.FileTypeId == 1 ? "document_icon_dashboard.svg" : "spreadsheet_icon_dashboard.svg")" height="150">
-							</div>
+							<a asp-area="WorkSpace" asp-controller="Session" asp-action="NewSession"  asp-route-type="@(item.FileTypeId == 1 ? "document" : "spreadsheet")" asp-route-filePath="@item.FilePath" asp-route-sessionId="@item.SessionId" asp-route-fileTitle="@item.FileTitle">
+								<div class="card-image top-left-rounded-5 top-right-rounded-5" style="padding-top:5px;">
+									<img src="~/images/@(item.FileTypeId == 1 ? "document_icon_dashboard.svg" : "spreadsheet_icon_dashboard.svg")" height="150">
+								</div>
+							</a>
+
 							<div class="card-content">
-								<span class="card-title grey-text text-darken-4">@item.Title</span>
+								<span class="card-title grey-text text-darken-4">@item.FileTitle</span>
 
 								<table style="margin-top: 30px;">
 									<tr class="no-border">
@@ -24,6 +27,7 @@ else
 										<td class="no-padding">
 											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.StartedAt</div>
 										</td>
+
 										<td class="grey-text no-padding">Participant(s)</td>
 										<td class="no-padding">
 											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.ParticipantCount</div>
@@ -33,6 +37,11 @@ else
 										<td class="grey-text no-padding">Ended at</td>
 										<td class="no-padding">
 											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")">@item.EndedAt</div>
+										</td>
+
+										<td class="grey-text no-padding">Date</td>
+										<td class="no-padding">
+											<div class="chip @(item.FileTypeId == 1 ? "indigo lighten-5 indigo-text text-darken-1" : "green lighten-5 green-text text-darken-1")" style="margin-left:-60px;">@item.SessionDate</div>
 										</td>
 									</tr>
 								</table>
@@ -58,6 +67,7 @@ else
 							</div>
 							<div class="card-action">
 								<a data-type="view-sp" style="cursor: pointer;" class="@(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1") tooltipped activator" data-position="bottom" data-tooltip="Participant(s)"><i class="material-icons">people</i></a>
+								<a style="cursor: pointer;" data-sessionid="@item.SessionId" class="red-text text-lighten-1 tooltipped right archive-session" data-position="bottom" data-tooltip="Delete"><i class="material-icons">delete</i></a>
 							</div>
 						</div>
 					</div>

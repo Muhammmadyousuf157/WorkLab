@@ -1,5 +1,10 @@
 ﻿const s = x_spreadsheet('#spreadsheet');
 
+try {
+    s.loadData(JSON.parse($('#editor-content').text()));
+} catch (e) {
+}
+
 $('.x-spreadsheet-bottombar').remove();
 $('.x-spreadsheet-toolbar-btns').children().eq(2).hide();
 $('.x-spreadsheet-toolbar-btns').children().eq(25).hide();

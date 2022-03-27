@@ -110,7 +110,6 @@
 
     function configureContentChangeEvent() {
         if (fileType === 'document') {
-            console.log(editor);
             editor.model.document.on('change:data', () => {
                 configSessionFileUpdate(editor.getData());
             });
@@ -141,6 +140,14 @@
             sessionCurrentFile = await response.json();
 
         configureContentChangeEvent();
+
+        if (fileType === 'document') {
+            configSessionFileUpdate(editor.getData());
+        } else if (fileType === 'spreadsheet') {
+            configSessionFileUpdate($('#editor-content').text());
+        }
+
+        $('#file-title').trigger('change');
     });
 
     hubConnection.on('ReceiveJoinSessionInfo', async users => {
@@ -187,4 +194,46 @@
 
         await hubConnection.invoke('JoinSession', userName, _sessionKey);
     }
+
+    const ft = $('#ft').val() ? $('#ft').val() : 'Untitled File';
+
+    $('#file-title')
+        .val(ft)
+        .width($('#file-title-placeholder')
+            .text(ft)
+            .width())
+        .show();
+
+    $('#file-title')
+        .on('input', function () {
+            let rectifiedName = '';
+
+            for (const char of $(this).val()) {
+                if (!((/[a-zA-Z]/).test(char) || !isNaN(char) || [' ', '(', ')', '_', '-', ',', '.'].includes(char)))
+                    continue;
+
+                rectifiedName += char;
+            }
+
+            $(this).val(rectifiedName);
+
+            $(this).width($('#file-title-placeholder').text($(this).val()).width());
+        })
+        .change(async function () {
+            if (!sessionCurrentFile)
+                return;
+
+            if (!$(this).val()) {
+                $(this).width($('#file-title-placeholder').text("Untitled File").width());
+                $(this).val('Untitled File');
+            }
+
+            sessionCurrentFile.fileTitle = $(this).val();
+
+            const url = `/WorkSpace/Session/UpdateFileTitle?fileId=${sessionCurrentFile.fileId}&fileTitle=${sessionCurrentFile.fileTitle}`;
+            const response = await fetch(url, { method: 'POST' });
+
+            if (response.status !== 200)
+                showAlert('Error', 'something went wrong while renaming the file', true, 'OK');
+        });
 });

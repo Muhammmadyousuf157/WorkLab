@@ -32,8 +32,18 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			return View(sessions);
 		}
 
-		public async Task<IActionResult> NewSession(string type)
+		public async Task<IActionResult> NewSession(string type, string filePath, int sessionId, string fileTitle)
 		{
+			if (filePath is not null)
+			{
+				await SessionManager.DeleteSession(sessionId).ConfigureAwait(false);
+
+				var path = Path.Combine(_env.WebRootPath, "assets","session","files", filePath);
+				ViewBag.FileContent = await CodeFile.ReadAllTextAsync(path);
+
+				ViewBag.FileTitle = fileTitle;
+			}
+
 			var email = User.FindFirst(x => x.Type == ClaimTypes.Email).Value;
 
 			var result = await EmailManager.IsEmailConfirmed(email).ConfigureAwait(false);
@@ -70,13 +80,14 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			return Ok();
 		}
 
-		//[HttpPost]
-		//public async Task<IActionResult> DeleteSession(int sessionId)
-		//{
-		//	await SessionManager.DeleteSession(sessionId).ConfigureAwait(false);
 
-		//	return Ok();
-		//}
+		[HttpPost]
+		public async Task<IActionResult> UpdateFileTitle(int fileId, string fileTitle)
+		{
+			await SessionManager.UpdateFileTitle(fileId, fileTitle);
+
+			return Ok();
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> UpdateFileContent([FromQuery] string filePath, [FromQuery] string sessionKey, [FromBody] string fileContent)
@@ -127,6 +138,15 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			return View("_JoinSession", model);
 		}
 
+		   [HttpPost]
+        public async Task<IActionResult> DeleteSession(int sessionId)
+        {
+            await SessionManager.DeleteSession(sessionId).ConfigureAwait(false);
+
+            return Ok();
+        }
+
+
 		[AllowAnonymous]
 		[HttpPost]
 		public List<string> UploadImageFile(List<IFormFile> imageFiles)
@@ -148,5 +168,7 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 
 			return imagePaths;
 		}
+
+
 	}
 }

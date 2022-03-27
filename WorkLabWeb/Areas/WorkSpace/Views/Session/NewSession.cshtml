@@ -37,6 +37,10 @@
 
 <input hidden id="user-authenticated" value="@flag" />
 
+<div hidden id="editor-content">@ViewBag.FileContent</div>
+
+<input hidden id="ft" value="@ViewBag.FileTitle" />
+
 <partial name="_SessionMarkupPartial" model="partialmarkup" />
 
 @section Scripts {

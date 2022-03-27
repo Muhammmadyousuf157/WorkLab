@@ -42,5 +42,21 @@ namespace WorkLabLibrary.DataAccess
                 .ConfigureAwait(false)).ToList();
         }
 
+        public static async Task UpdateFileTitle(int fileId, string fileTitle)
+        {
+            using IDbConnection db = DbConnection.GetConnection();
+
+            await db.ExecuteAsync("spUpdateFileTitle", new { fileId, fileTitle }, commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
+        }
+
+        public static async Task DeleteSession(int sessionId)
+        {
+            using IDbConnection db = DbConnection.GetConnection();
+
+            await db.ExecuteAsync("spDeleteSession", new { sessionId }, commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
+        }
+
     }
 }
