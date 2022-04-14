@@ -58,5 +58,12 @@ namespace WorkLabLibrary.DataAccess
                 .ConfigureAwait(false);
         }
 
+        public static async Task<SessionFile> GetSessionFile(int fileId)
+        {
+            using IDbConnection db = DbConnection.GetConnection();
+
+            return await db.QuerySingleOrDefaultAsync<SessionFile>("spGetSessionFile", new { fileId}, commandType: CommandType.StoredProcedure)
+                .ConfigureAwait(false);
+        }
     }
 }

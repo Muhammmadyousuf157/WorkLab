@@ -3,7 +3,7 @@
 
     $('#session-time').attr('data-badge-caption', getCurrentDateTime());
 
-    addEventListener('beforeunload', askUserBeforeUnload);
+    //addEventListener('beforeunload', askUserBeforeUnload);
 
     $('#end-btn').click(async () => {
         await hubConnection.invoke('EndSessionForAll', getCurrentDateTime(), sessionKey);
@@ -55,7 +55,7 @@
     }
 
     function leaveSession() {
-        removeEventListener('beforeunload', askUserBeforeUnload);
+        //removeEventListener('beforeunload', askUserBeforeUnload);
 
         if ($('#user-authenticated').val() === 'yes')
             location.replace('/WorkSpace/Session/Dashboard');
@@ -138,11 +138,18 @@
             showAlert('Error', 'something went wrong while creating the session', true, 'OK');
         else
             sessionCurrentFile = await response.json();
-
+        
         configureContentChangeEvent();
 
         if (fileType === 'document') {
             configSessionFileUpdate(editor.getData());
+
+            $('#btn_Download')
+                .attr('href', `/WorkSpace/Session/DownloadDoc?fileId=${sessionCurrentFile.fileId}`);
+                //.click(() => {
+                //    removeEventListener('beforeunload', askUserBeforeUnload)
+                //    setTimeout(() => addEventListener('beforeunload', askUserBeforeUnload), 3000);
+                //});
         } else if (fileType === 'spreadsheet') {
             configSessionFileUpdate($('#editor-content').text());
         }

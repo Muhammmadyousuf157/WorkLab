@@ -51,3 +51,10 @@ s.change(async data => {
     const spreadSheetContent = JSON.stringify(data);
     await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 });
+
+$('#btn_Download').click(() => {
+    const new_wb = xtos(s.getData());
+
+    /* generate download */
+    XLSX.writeFile(new_wb, "Test.xlsx");
+});
