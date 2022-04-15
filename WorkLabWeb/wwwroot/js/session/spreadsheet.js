@@ -73,9 +73,13 @@ s.change(async data => {
     await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 });
 
-$('#btn_Download').click(() => {
+$('#btn_Download').click(async () => {
+    debugger;
+    const response = await fetch(`/WorkSpace/Session/GetSessionFileTitle?sessionKey=${sessionKey}`);
+    const title = await response.text();
+
     const new_wb = xtos(s.getData());
 
     /* generate download */
-    XLSX.writeFile(new_wb, "Test.xlsx");
+    XLSX.writeFile(new_wb, `${title}.xlsx`);
 });
