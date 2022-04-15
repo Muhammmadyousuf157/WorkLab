@@ -22,6 +22,26 @@ $('.x-spreadsheet-toolbar-btns').children().eq(6).first().children().eq(0).child
 
 let fileSaveTimeout = undefined;
 
+let typing = false;
+let timeout = undefined;
+
+async function timeoutFunction() {
+    typing = false;
+    await hubConnection.invoke('StoppedTyping', sessionKey);
+}
+
+async function configTypingIndication() {
+    if (typing == false) {
+        typing = true
+        await hubConnection.invoke('StartedTyping', sessionKey);
+        timeout = setTimeout(timeoutFunction, 1000);
+    } else {    
+        clearTimeout(timeout);
+        timeout = setTimeout(timeoutFunction, 1000);
+    }
+}
+
+
 function configSessionFileUpdate(content) {
     if (!sessionCurrentFile) return;
 
@@ -48,6 +68,7 @@ hubConnection.on('ReceiveSpreadSheetContent', spreadSheetContent => {
 });
 
 s.change(async data => {
+    configTypingIndication();
     const spreadSheetContent = JSON.stringify(data);
     await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 });

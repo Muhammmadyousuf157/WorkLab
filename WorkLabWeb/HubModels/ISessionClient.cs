@@ -25,6 +25,10 @@ namespace WorkLabWeb.HubModels
        
         Task StopMessageTypingIndication();
 
+        Task StartTypingIndication(string userId);
+
+        Task StopTypingIndication(string userId);
+
         Task EndSession();
     }
 }

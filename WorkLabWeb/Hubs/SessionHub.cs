@@ -103,6 +103,20 @@ namespace WorkLabWeb.Hubs
             await Clients.OthersInGroup(sessionKey).StopMessageTypingIndication()
                 .ConfigureAwait(false);
         }
+
+        public async Task StartedTyping(string sessionKey)
+        {
+
+            await Clients.OthersInGroup(sessionKey).StartTypingIndication(Context.ConnectionId)
+                .ConfigureAwait(false);
+        }
+
+        public async Task StoppedTyping(string sessionKey)
+        {
+
+            await Clients.OthersInGroup(sessionKey).StopTypingIndication(Context.ConnectionId)
+                .ConfigureAwait(false);
+        }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             foreach (var item in SessionInformation.SessionInfo)

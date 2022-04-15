@@ -88,13 +88,33 @@ DecoupledEditor
 		console.error(err.stack);
 	});
 
+let sendContentTimeOut = undefined;
+let typing = false;
 let timeout = undefined;
 
-async function broadcastEditorContent(event, data) {
-	if (timeout)
-		clearTimeout(timeout);
+async function timeoutFunction() {
+	typing = false;	
+	await hubConnection.invoke('StoppedTyping', sessionKey);
+}
 
-	timeout = setTimeout(async () => {
+async function configTypingIndication() {
+	if (typing == false) {
+		typing = true
+		await hubConnection.invoke('StartedTyping', sessionKey);
+		timeout = setTimeout(timeoutFunction, 1000);
+	} else {
+		clearTimeout(timeout);
+		timeout = setTimeout(timeoutFunction, 1000);
+	}
+}
+
+async function broadcastEditorContent(event, data) {
+	configTypingIndication();
+
+	if (sendContentTimeOut)
+		clearTimeout(sendContentTimeOut);
+
+	sendContentTimeOut = setTimeout(async () => {
 		const editorContent = editor.getData();
 		await hubConnection.invoke('SendEditorContent', editorContent, sessionKey);
 	}, 1000);

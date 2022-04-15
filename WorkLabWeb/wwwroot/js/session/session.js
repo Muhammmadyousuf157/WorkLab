@@ -108,6 +108,25 @@
         }, 3000);
     }
 
+    let typing = false;
+    let timeout = undefined;
+
+    async function timeoutFunction() {
+        typing = false;
+        await hubConnection.invoke('StoppedTyping', sessionKey);
+    }
+
+    async function configTypingIndication() {
+        if (typing == false) {
+            typing = true
+            await hubConnection.invoke('StartedTyping', sessionKey);
+            timeout = setTimeout(timeoutFunction, 1000);
+        } else {
+            clearTimeout(timeout);
+            timeout = setTimeout(timeoutFunction, 1000);
+        }
+    }
+
     function configureContentChangeEvent() {
         if (fileType === 'document') {
             editor.model.document.on('change:data', () => {
@@ -115,6 +134,7 @@
             });
         } else if (fileType === 'spreadsheet') {
             s.change(async data => {
+                configTypingIndication();
                 const spreadSheetContent = JSON.stringify(data);
                 await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
 
@@ -157,6 +177,8 @@
         $('#file-title').trigger('change');
     });
 
+
+
     hubConnection.on('ReceiveJoinSessionInfo', async users => {
         sessionUsers = users;
         showUsers(users);
@@ -187,6 +209,16 @@
     hubConnection.on('EndSession', async () => {
         await hubConnection.stop();
         leaveSession();
+    });
+
+    hubConnection.on('StartTypingIndication', userId => {
+        $('.participant-list ul').find(`li a[data-userid="${userId}"]`)
+            .prepend('<span class="new badge green lighten-1 pulse" data-badge-caption="Typing..."></span>')
+            .parent().exchangePositionWith('.participant-list ul li:eq(1)');
+    });
+
+    hubConnection.on('StopTypingIndication', userId => {
+        $('.participant-list ul').find(`li a[data-userid="${userId}"]`).find('span.badge').remove();
     });
 
     if ($('#session-type').val() === 'new') {
