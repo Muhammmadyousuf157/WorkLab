@@ -1,1 +1,0 @@
-{"name":"sheet1","freeze":"A1","styles":[],"merges":[],"rows":{"10":{"cells":{"2":{"text":"dfsdfsdf"},"3":{"text":"sfsdfdsfs"}}},"len":100},"cols":{"len":26},"validations":[],"autofilter":{}}

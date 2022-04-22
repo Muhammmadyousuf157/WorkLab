@@ -1,23 +1,24 @@
 ﻿using WorkLabLibrary.DataAccess;
-using FluentEmail.Core;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WorkLabWeb.Services;
+using WorkLabWeb.ServiceModels;
+using Microsoft.Extensions.Configuration;
 
 namespace WorkLabWeb.Areas.Users.Controllers
 {
 	public class EmailController : Controller
 	{
-		private readonly IFluentEmail _email;
+		private readonly IConfiguration _configuration;
 
-		private readonly IWebHostEnvironment _env;
+		private readonly IEmailService _emailService;
 
-		public EmailController(IFluentEmail email, IWebHostEnvironment env)
+		public EmailController(IConfiguration configuration, IEmailService emailService)
 		{
-			_email = email;
-			_env = env;
+			_configuration = configuration;
+			_emailService = emailService;
 		}
 
 		public async Task<IActionResult> VerifyEmail(string token)
@@ -35,22 +36,20 @@ namespace WorkLabWeb.Areas.Users.Controllers
 
 			var confirmationLink = Url.Action("VerifyEmail", "Email", new { Area = "Users", token }, Request.Scheme);
 
-			var templateFilePath = $"{_env.ContentRootPath}\\EmailTemplates\\EmailConfirmation.cshtml";
+			var request = new EmailRequest
+			{
+				Email = email,
+				Link = confirmationLink,
+				Type = "confirmation",
+				Secret = _configuration["EmailService:AudienceSecret"]
+			};
 
-			try
-			{
-				await _email
-			   .To(email, User.Identity.Name)
-			   .Subject("Email Confirmation - WorkLab")
-			   .UsingTemplateFromFile(templateFilePath, new { Link = confirmationLink }, true)
-			   .SendAsync()
-			   .ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-			}
-		   
-			return Ok();
+			var response = await _emailService.SendEmail(request).ConfigureAwait(false);
+
+			if (response)
+				return Ok();
+
+			return StatusCode(500);
 		}
 	}
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using WorkLabWeb.Hubs;
+using WorkLabWeb.Services;
 
 namespace WorkLabWeb
 {
@@ -53,6 +54,8 @@ namespace WorkLabWeb
 				o.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
 				o.KeepAliveInterval = TimeSpan.FromSeconds(30);
 			}).AddMessagePackProtocol();
+
+			services.AddHttpClient<IEmailService, EmailService>(options => options.BaseAddress = new Uri(Configuration["EmailService:BaseAddress"]));
 
 			services.AddControllersWithViews(options => options.Filters.Add(new AuthorizeFilter()));
 		}

@@ -105,7 +105,7 @@
 
             if (response.status !== 200)
                 showAlert('Error', 'something went wrong while saving the file', true, 'OK');
-        }, 3000);
+        }, 1500);
     }
 
     let typing = false;
