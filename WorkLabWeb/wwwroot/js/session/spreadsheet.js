@@ -77,9 +77,8 @@ $('#btn_Download').click(async () => {
     debugger;
     const response = await fetch(`/WorkSpace/Session/GetSessionFileTitle?sessionKey=${sessionKey}`);
     const title = await response.text();
-
+    console.log(s.getData());
     const new_wb = xtos(s.getData());
 
-    /* generate download */
     XLSX.writeFile(new_wb, `${title}.xlsx`);
 });

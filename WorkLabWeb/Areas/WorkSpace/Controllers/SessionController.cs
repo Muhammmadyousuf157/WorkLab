@@ -157,7 +157,7 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
             return Ok();
         }
 
-
+		//[AllowAnonymous]
 		//public async Task<IActionResult> DownloadDoc(int fileId)
 		//{
 		//	var sessionFile = await SessionManager.GetSessionFile(fileId).ConfigureAwait(false);
@@ -189,6 +189,8 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 		//	return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{sessionFile.FileTitle}.docx");
 		//}
 
+
+		[AllowAnonymous]
 		public async Task<IActionResult> DownloadDoc(int fileId)
 		{
 			var sessionFile = await SessionManager.GetSessionFile(fileId).ConfigureAwait(false);
@@ -214,6 +216,19 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			memoryStream.Position = 0;
 
 			return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{sessionFile.FileTitle}.docx");
+		}
+
+		public async Task<IActionResult> DownloadSpreadSheet(int fileId) 
+		{
+			var file = await SessionManager.GetSessionFile(fileId);
+			var path = Path.Combine(_env.WebRootPath, "assets", "session", "files", file.FilePath);
+			var spreadsheetFile = new SpreadSheetFile
+			{
+				Title = file.FileTitle,
+				Content = await CodeFile.ReadAllTextAsync(path)
+			};
+
+			return Ok(new { File = spreadsheetFile});
 		}
 
 		[AllowAnonymous]

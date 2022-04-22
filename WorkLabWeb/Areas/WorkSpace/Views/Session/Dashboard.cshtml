@@ -16,8 +16,12 @@ else
 @section Scripts {
 	@if (isConfirmed)
 	{
+		<script src="~/lib/xspreadsheet/xspreadsheet.js"></script>
+		<script src="~/lib/xspreadsheet/xlsx.full.min.js"></script>
+		<script src="~/lib/xspreadsheet/xlsxspread.js"></script>
 		<script src="~/js/Account/dashboard.js" asp-append-version="true"></script>
 	}
+
 	else
 	{
 		<script src="/js/Account/emailConfirmation.js" asp-append-version="true"></script>

@@ -67,7 +67,7 @@ else
 							</div>
 							<div class="card-action">
 								<a data-type="view-sp" style="cursor: pointer;" class="@(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1") tooltipped activator" data-position="bottom" data-tooltip="Participant(s)"><i class="material-icons">people</i></a>
-								<a asp-area="WorkSpace" asp-controller="Session" asp-action="@(item.FileTypeId == 1 ? "DownloadDoc" : "")" asp-route-fileId="@item.FileId" style="cursor: pointer;" class="@(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1") tooltipped" data-position="bottom" data-tooltip="Download Session File"><i class="material-icons">download</i></a>
+								<a href="@(item.FileTypeId == 1 ? $"/WorkSpace/Session/DownloadDoc?fileId={item.FileId}" : "#")" style="cursor: pointer;" class="@(item.FileTypeId == 1 ? "indigo-text text-darken-1" : "green-text text-darken-1 download-spreadsheet") tooltipped" data-fileId="@item.FileId" data-position="bottom" data-tooltip="Download Session File"><i class="material-icons">download</i></a>
 								<a style="cursor: pointer;" data-sessionid="@item.SessionId" class="red-text text-lighten-1 tooltipped right archive-session" data-position="bottom" data-tooltip="Delete"><i class="material-icons">delete</i></a>
 							</div>
 						</div>
