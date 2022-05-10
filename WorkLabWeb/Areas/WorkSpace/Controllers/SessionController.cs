@@ -157,39 +157,6 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
             return Ok();
         }
 
-		//[AllowAnonymous]
-		//public async Task<IActionResult> DownloadDoc(int fileId)
-		//{
-		//	var sessionFile = await SessionManager.GetSessionFile(fileId).ConfigureAwait(false);
-
-		//	var txtFile = Path.Combine(_env.WebRootPath, "assets", "session", "files", sessionFile.FilePath);
-		//	var htmlFile = Path.Combine(_env.WebRootPath, "assets", "session", "temp", $"{Guid.NewGuid()}_{Path.GetRandomFileName()}.html");
-		//	var docFile = Path.Combine(_env.WebRootPath, "assets", "session", "temp", $"{Guid.NewGuid()}_{Path.GetRandomFileName()}.docx");
-
-		//	await CodeFile.Create(htmlFile).DisposeAsync();
-		//	await CodeFile.WriteAllTextAsync(htmlFile, await CodeFile.ReadAllTextAsync(txtFile));
-
-		//	// Initialize an HTML document from the file
-		//	using var document = new HTMLDocument(htmlFile);
-
-		//	// Initialize DocSaveOptions 
-		//	var options = new Aspose.Html.Saving.DocSaveOptions();
-
-		//	// Convert HTML webpage to DOCX
-		//	Aspose.Html.Converters.Converter.ConvertHTML(document, options, docFile);
-
-		//	var memoryStream = new MemoryStream();
-
-		//	using var fileStream = new FileStream(docFile, FileMode.Open);
-
-		//	await fileStream.CopyToAsync(memoryStream);
-
-		//	memoryStream.Position = 0;
-
-		//	return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{sessionFile.FileTitle}.docx");
-		//}
-
-
 		[AllowAnonymous]
 		public async Task<IActionResult> DownloadDoc(int fileId)
 		{
@@ -202,10 +169,14 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			await CodeFile.Create(htmlFile).DisposeAsync();
 			await CodeFile.WriteAllTextAsync(htmlFile, await CodeFile.ReadAllTextAsync(txtFile));
 
-			//Loads the HTML document against none schema validation
-			using (WordDocument document = new WordDocument(htmlFile, FormatType.Html, XHTMLValidationType.None))
-				//Saves the Word document
-				document.Save(docFile, FormatType.Docx);
+			// Initialize an HTML document from the file
+			using var document = new HTMLDocument(htmlFile);
+
+			// Initialize DocSaveOptions 
+			var options = new Aspose.Html.Saving.DocSaveOptions();
+
+			// Convert HTML webpage to DOCX
+			Aspose.Html.Converters.Converter.ConvertHTML(document, options, docFile);
 
 			var memoryStream = new MemoryStream();
 
@@ -217,6 +188,34 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 
 			return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{sessionFile.FileTitle}.docx");
 		}
+
+
+		//[AllowAnonymous]
+		//public async Task<IActionResult> DownloadDoc(int fileId)
+		//{
+		//	var sessionFile = await SessionManager.GetSessionFile(fileId).ConfigureAwait(false);
+
+		//	var txtFile = Path.Combine(_env.WebRootPath, "assets", "session", "files", sessionFile.FilePath);
+		//	var htmlFile = Path.Combine(_env.WebRootPath, "assets", "session", "temp", $"{Guid.NewGuid()}_{Path.GetRandomFileName()}.html");
+		//	var docFile = Path.Combine(_env.WebRootPath, "assets", "session", "temp", $"{Guid.NewGuid()}_{Path.GetRandomFileName()}.docx");
+
+		//	await CodeFile.Create(htmlFile).DisposeAsync();
+		//	await CodeFile.WriteAllTextAsync(htmlFile, await CodeFile.ReadAllTextAsync(txtFile));
+
+		//	using (WordDocument document = new WordDocument(htmlFile, FormatType.Html, XHTMLValidationType.None))
+
+		//		document.Save(docFile, FormatType.Docx);
+
+		//	var memoryStream = new MemoryStream();
+
+		//	using var fileStream = new FileStream(docFile, FileMode.Open);
+
+		//	await fileStream.CopyToAsync(memoryStream);
+
+		//	memoryStream.Position = 0;
+
+		//	return File(memoryStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", $"{sessionFile.FileTitle}.docx");
+		//}
 
 		public async Task<IActionResult> DownloadSpreadSheet(int fileId) 
 		{
@@ -247,7 +246,7 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 				file.CopyTo(fileStream);
 				fileStream.Dispose();
 
-				imagePaths.Add($"/assets/document/images/{fileName}");
+				imagePaths.Add($"https://worklab.azurewebsites.net/assets/document/images/{fileName}");
 			});
 
 			return imagePaths;

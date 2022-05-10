@@ -143,6 +143,9 @@ namespace WorkLabWeb.Hubs
 
                         await Clients.OthersInGroup(item.Key).NotifyUser(NotificationMessage.GetUserLeaveMessage(user.UserName))
                             .ConfigureAwait(false);
+
+                        await Clients.OthersInGroup(item.Key).CloseVideoCall(Context.ConnectionId)
+                            .ConfigureAwait(false);
                     }
 
                     break;
@@ -152,6 +155,12 @@ namespace WorkLabWeb.Hubs
             await base.OnDisconnectedAsync(exception)
                 .ConfigureAwait(false);
         }
-    
+
+        public async Task SendPeerId(string peerId, string sessionKey)
+        {
+            await Clients.OthersInGroup(sessionKey).ReceivePeerId(peerId, Context.ConnectionId)
+                .ConfigureAwait(false);
+        }
+
     }
 }

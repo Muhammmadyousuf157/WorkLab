@@ -1,4 +1,6 @@
-﻿$(document).ready(async () => {
+﻿import initializeVideoChat from '../../js/session/videoChat.js';
+
+$(document).ready(async () => {
     await hubConnection.start();
 
     $('#session-time').attr('data-badge-caption', getCurrentDateTime());
@@ -275,4 +277,6 @@
             if (response.status !== 200)
                 showAlert('Error', 'something went wrong while renaming the file', true, 'OK');
         });
+
+    initializeVideoChat();
 });

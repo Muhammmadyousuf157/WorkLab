@@ -30,5 +30,9 @@ namespace WorkLabWeb.HubModels
         Task StopTypingIndication(string userId);
 
         Task EndSession();
+
+        Task ReceivePeerId(string peerId, string userId);
+
+        Task CloseVideoCall(string userId);
     }
 }

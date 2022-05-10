@@ -53,7 +53,7 @@ namespace WorkLabWeb
 				o.MaximumReceiveMessageSize = null;
 				o.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
 				o.KeepAliveInterval = TimeSpan.FromSeconds(30);
-			}).AddMessagePackProtocol();
+			}).AddAzureSignalR("Endpoint=https://worklab.service.signalr.net;AccessKey=92d9f1zwYrO2SDtLr//fC7OGLbmObsSZSQ7MCh6EYLU=;Version=1.0;").AddMessagePackProtocol();
 
 			services.AddHttpClient<IEmailService, EmailService>(options => options.BaseAddress = new Uri(Configuration["EmailService:BaseAddress"]));
 

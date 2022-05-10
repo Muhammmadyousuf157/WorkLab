@@ -81,6 +81,12 @@ DecoupledEditor
 
 			editor.setData(editor.getData() + output);
 
+			//$('#editor img').each(function () {
+			//	console.log($(this));
+			//	console.log($(this).attr('src'));
+			//	$(this).replaceWith(`<img src="${$(this).attr('src')}" />`);
+			//});
+
 			this.value = null;
 		});
 	})

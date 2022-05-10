@@ -9,6 +9,14 @@
         "dist/winbox.bundle.min.js",
         "dist/css/winbox.min.css"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "peerjs@1.3.2",
+      "destination": "wwwroot/lib/peerjs/",
+      "files": [
+        "peerjs.min.js"
+      ]
     }
   ]
 }

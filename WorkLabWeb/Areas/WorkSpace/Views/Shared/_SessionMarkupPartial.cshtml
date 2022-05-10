@@ -25,6 +25,32 @@
 				<li><a class="waves-effect modal-trigger" href="#share-modal"><i class="material-icons">share</i>Share</a></li>
 				<li><a class="waves-effect" id="chat-box"><i class="material-icons">chat</i>Chat</a></li>
 				<li><a class="waves-effect" id="btn_Download"><i class="material-icons">file_download</i>Download</a></li>
+
+				<li>
+					<a id="camera" class="waves-effect">
+						<i class="material-icons">videocam_off</i>Camera
+						<div id="center-div" class="hide">
+							<div class="bubble">
+								<span class="bubble-outer-dot">
+									<span class="bubble-inner-dot"></span>
+								</span>
+							</div>
+						</div>
+					</a>
+				</li>
+
+				<li>
+					<a id="microphone" class="waves-effect">
+						<i class="material-icons">mic_off</i>Microphone
+						<div id="center-div" class="hide">
+							<div class="bubble">
+								<span class="bubble-outer-dot">
+									<span class="bubble-inner-dot"></span>
+								</span>
+							</div>
+						</div>
+					</a>
+				</li>
 			</ul>
 		</div>
 	</li>
@@ -34,27 +60,12 @@
 <partial name="@Model" />
 <!--===================================================================-->
 <!--================================= Video call panel =====================================================-->
-<ul id="video-panel" class="sidenav sidenav-fixed animate__animated animate__fadeIn">
+<ul id="video-panel" class="sidenav sidenav-fixed animate__animated animate__fadeIn grey lighten-5">
 	<li><a class="subheader"><i class="material-icons grey-text">voice_chat</i>Video Call</a></li>
 
 	<li>
 		<div class="video-list">
 			<ul>
-				<li class="video-item">
-					<div class="video-box"></div>
-				</li>
-
-				<li class="video-item">
-					<div class="video-box"></div>
-				</li>
-
-				<li class="video-item">
-					<div class="video-box"></div>
-				</li>
-
-				<li class="video-item">
-					<div class="video-box"></div>
-				</li>
 			</ul>
 		</div>
 	</li>
