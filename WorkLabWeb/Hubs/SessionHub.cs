@@ -43,7 +43,7 @@ namespace WorkLabWeb.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionKey)
                 .ConfigureAwait(false);
 
-            await Clients.Caller.ReceiveJoinSessionInfo(users)
+            await Clients.Caller.ReceiveJoinSessionInfo(users, SessionInformation.SessionInfo[sessionKey].type)
                 .ConfigureAwait(false);
 
             await Clients.OthersInGroup(sessionKey).AddUser(user)

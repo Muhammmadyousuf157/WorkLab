@@ -7,7 +7,7 @@ namespace WorkLabWeb.HubModels
     {
         Task ReceiveNewSessionInfo(ConnectedUser user, string sessionKey, string type);
 
-        Task ReceiveJoinSessionInfo(List<ConnectedUser> users);
+        Task ReceiveJoinSessionInfo(List<ConnectedUser> users, string type);
 
         Task AddUser(ConnectedUser user);
 

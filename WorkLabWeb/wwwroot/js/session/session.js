@@ -144,32 +144,44 @@ $(document).ready(async () => {
             showAlert('Error', 'something went wrong while creating the session', true, 'OK');
         else
             sessionCurrentFile = await response.json();
-        
-        configureContentChangeEvent();
 
-        if (fileType === 'document') {
-            configSessionFileUpdate(editor.getData());
+        //configureContentChangeEvent();
 
+        if (fileType == 'document') {
             $('#btn_Download')
                 .attr('href', `/WorkSpace/Session/DownloadDoc?fileId=${sessionCurrentFile.fileId}`);
-                //.click(() => {
-                //    removeEventListener('beforeunload', askUserBeforeUnload)
-                //    setTimeout(() => addEventListener('beforeunload', askUserBeforeUnload), 3000);
-                //});
+            //.click(() => {
+            //    removeEventListener('beforeunload', askUserBeforeUnload)
+            //    setTimeout(() => addEventListener('beforeunload', askUserBeforeUnload), 3000);
+            //});
         } else if (fileType === 'spreadsheet') {
             configSessionFileUpdate($('#editor-content').text());
         }
 
         $('#file-title').trigger('change');
+
+        if (fileType === 'document') {
+            editor.model.document.on('change:data', () => {
+                configSessionFileUpdate(editor.getData());
+            });
+        } else if (fileType === 'spreadsheet') {
+            s.change(async data => {
+                configTypingIndication();
+                const spreadSheetContent = JSON.stringify(data);
+                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
+
+                configSessionFileUpdate(JSON.stringify(data));
+            });
+        }
     });
 
 
 
-    hubConnection.on('ReceiveJoinSessionInfo', async users => {
+    hubConnection.on('ReceiveJoinSessionInfo', async (users, type) => {
         sessionUsers = users;
         showUsers(users);
         updateParticipantCount();
-
+        fileType = type;
 
         const url = `/WorkSpace/Session/SaveParticipant?userName=${$('#session-username').val()}&sessionKey=${$('#session-key').val()}`;
         const response = await fetch(url, { method: 'POST' });
@@ -177,7 +189,33 @@ $(document).ready(async () => {
         if (response.status !== 200)
             showAlert('Error', 'something went wrong while joining the session', true, 'OK');
 
-        console.log(sessionCurrentFile);
+        if (fileType === 'document') {
+            const uurl = `/WorkSpace/Session/GetSessionFileId?sessionKey=${sessionKey}`;
+            const new_response = await fetch(uurl);
+
+            if (new_response.status !== 200)
+                showAlert('Error', 'something went wrong while fetching the session file', true, 'OK');
+            else {
+                sessionCurrentFile = await new_response.json();
+
+                $('#btn_Download')
+                    .attr('href', `/WorkSpace/Session/DownloadDoc?fileId=${sessionCurrentFile.fileId}`);
+            }
+		}
+
+        if (fileType === 'document') {
+            editor.model.document.on('change:data', () => {
+                configSessionFileUpdate(editor.getData());
+            });
+        } else if (fileType === 'spreadsheet') {
+            s.change(async data => {
+                configTypingIndication();
+                const spreadSheetContent = JSON.stringify(data);
+                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
+
+                configSessionFileUpdate(JSON.stringify(data));
+            });
+        }
     });
 
     hubConnection.on('AddUser', user => {
@@ -222,21 +260,9 @@ $(document).ready(async () => {
         await hubConnection.invoke('JoinSession', userName, _sessionKey);
     }
 
-    function configureContentChangeEvent() {
-        if (fileType === 'document') {
-            editor.model.document.on('change:data', () => {
-                configSessionFileUpdate(editor.getData());
-            });
-        } else if (fileType === 'spreadsheet') {
-            s.change(async data => {
-                configTypingIndication();
-                const spreadSheetContent = JSON.stringify(data);
-                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
-
-                configSessionFileUpdate(JSON.stringify(data));
-            });
-        }
-    }
+    //function configureContentChangeEvent() {
+        
+    //}
 
     const ft = $('#ft').val() ? $('#ft').val() : 'Untitled File';
 

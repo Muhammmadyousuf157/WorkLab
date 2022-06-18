@@ -14,6 +14,7 @@ using WorkLabWeb.HubModels;
 using CodeFile = System.IO.File;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
+using WorkLabLibrary.Models;
 
 namespace WorkLabWeb.Areas.WorkSpace.Controllers
 {
@@ -113,6 +114,13 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 		{
 			var title =  await SessionManager.GetSessionFileTitle(sessionKey);
 			return title;
+		}
+
+		[AllowAnonymous]
+		public async Task<IActionResult> GetSessionFileId(string sessionKey)
+		{
+			var fileId = await SessionManager.GetSessionFileId(sessionKey);
+			return Ok(fileId);
 		}
 
 
@@ -229,6 +237,9 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 
 			return Ok(new { File = spreadsheetFile});
 		}
+
+
+
 
 		[AllowAnonymous]
 		[HttpPost]
