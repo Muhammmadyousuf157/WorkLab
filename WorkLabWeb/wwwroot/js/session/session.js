@@ -129,22 +129,6 @@ $(document).ready(async () => {
         }
     }
 
-    function configureContentChangeEvent() {
-        if (fileType === 'document') {
-            editor.model.document.on('change:data', () => {
-                configSessionFileUpdate(editor.getData());
-            });
-        } else if (fileType === 'spreadsheet') {
-            s.change(async data => {
-                configTypingIndication();
-                const spreadSheetContent = JSON.stringify(data);
-                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
-
-                configSessionFileUpdate(JSON.stringify(data));
-            });
-        }
-	}
-
     hubConnection.on('ReceiveNewSessionInfo', async (user, _sessionKey, type) => {
         sessionKey = _sessionKey;
         addUser(user);
@@ -192,6 +176,8 @@ $(document).ready(async () => {
 
         if (response.status !== 200)
             showAlert('Error', 'something went wrong while joining the session', true, 'OK');
+
+        console.log(sessionCurrentFile);
     });
 
     hubConnection.on('AddUser', user => {
@@ -227,6 +213,8 @@ $(document).ready(async () => {
         await hubConnection.invoke('CreateSession', $('#document-type').val());
     }
     else if ($('#session-type').val() === 'join') {
+        hubConnection.on('ReceiveSessionFile', sf => sessionCurrentFile = sf);
+
         const userName = $('#session-username').val();
         const _sessionKey = $('#session-key').val();
 
@@ -234,6 +222,22 @@ $(document).ready(async () => {
         $('#session-key-chip').text(_sessionKey);
 
         await hubConnection.invoke('JoinSession', userName, _sessionKey);
+    }
+
+    function configureContentChangeEvent() {
+        if (fileType === 'document') {
+            editor.model.document.on('change:data', () => {
+                configSessionFileUpdate(editor.getData());
+            });
+        } else if (fileType === 'spreadsheet') {
+            s.change(async data => {
+                configTypingIndication();
+                const spreadSheetContent = JSON.stringify(data);
+                await hubConnection.invoke('SendSpreadSheetContent', spreadSheetContent, sessionKey);
+
+                configSessionFileUpdate(JSON.stringify(data));
+            });
+        }
     }
 
     const ft = $('#ft').val() ? $('#ft').val() : 'Untitled File';
