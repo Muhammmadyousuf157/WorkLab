@@ -154,6 +154,12 @@ $(document).ready(async () => {
             //    removeEventListener('beforeunload', askUserBeforeUnload)
             //    setTimeout(() => addEventListener('beforeunload', askUserBeforeUnload), 3000);
             //});
+
+            await fetch(`/WorkSpace/Session/SetFileContent?sessionKey=${sessionKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify($('#editor-content').text())
+            });
         } else if (fileType === 'spreadsheet') {
             configSessionFileUpdate($('#editor-content').text());
         }

@@ -109,6 +109,15 @@ namespace WorkLabWeb.Areas.WorkSpace.Controllers
 			return Ok();
 		}
 
+		[HttpPost]
+		public IActionResult SetFileContent([FromQuery] string sessionKey, [FromBody] string fileContent)
+		{
+			SessionInformation.SessionInfo[sessionKey].fileContent.Clear();
+			SessionInformation.SessionInfo[sessionKey].fileContent.Append(fileContent);
+
+			return Ok();
+		}
+
 		[AllowAnonymous]
 		public async Task<string> GetSessionFileTitle(string sessionKey)
 		{
