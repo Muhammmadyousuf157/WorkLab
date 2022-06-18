@@ -213,8 +213,6 @@ $(document).ready(async () => {
         await hubConnection.invoke('CreateSession', $('#document-type').val());
     }
     else if ($('#session-type').val() === 'join') {
-        hubConnection.on('ReceiveSessionFile', sf => sessionCurrentFile = sf);
-
         const userName = $('#session-username').val();
         const _sessionKey = $('#session-key').val();
 
